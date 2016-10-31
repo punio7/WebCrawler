@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="WebCrawler.WorkerApp.ViewLight.Controls.MainToolbarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WebCrawler.WorkerApp.ViewLight.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <ToolBar>
+        <ToolBar.Resources>
+            <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Height" Value="50" />
+                <Setter Property="FontSize" Value="20" />
+            </Style>
+        </ToolBar.Resources>
+        <Button Content="+" Name="addProcessButton" Command="{Binding AddProcess}"/>
+        <Button Content="-" Name="removeProcessButton" />
+        <Separator />
+        <Button Content="►" Name="playProcessButton" />
+        <Button Content="||" Name="pauseProcessButton" />
+        <Button Content="■" Name="stopProcessButton" Command="{Binding StopProcess}"/>
+    </ToolBar>
+</UserControl>

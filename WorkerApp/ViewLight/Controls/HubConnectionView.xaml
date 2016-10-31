@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="WebCrawler.WorkerApp.ViewLight.Controls.HubConnectionView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WebCrawler.WorkerApp.ViewLight.Controls"
+        xmlns:ignore="http://www.galasoft.ch/ignore"
+        mc:Ignorable="d ignore">
+
+    <WrapPanel Margin="5" local:MarginSetter.Margin="5">
+        <TextBox Name="hubUrlTextBox" MinWidth="250"
+                 Text="{Binding HubUrl}" IsEnabled="{Binding HubUrlEnabled, Mode=TwoWay}"/>
+        <Button Name="connectButton" Content="Połącz"
+                Command="{Binding Connect}" IsEnabled="{Binding ConnectEnabled}"/>
+        <Button Name="disconnectButton" Content="Rozłącz"
+                Command="{Binding Disconnect}" IsEnabled="{Binding DisconnectEnabled}"/>
+        <Label Name="connectionStateLabel" Content="{Binding ConnectionState, Mode=OneWay}">
+        </Label>
+    </WrapPanel>
+</UserControl>

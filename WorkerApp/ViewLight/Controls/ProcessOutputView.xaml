@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="WebCrawler.WorkerApp.ViewLight.Controls.ProcessOutputView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WebCrawler.WorkerApp.ViewLight.Controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <DockPanel>
+        <TextBox Name="processCommandTextBox"  DockPanel.Dock="Bottom" 
+                 Text="{Binding CommandText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Enabled, Mode=TwoWay}">
+            <TextBox.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding CommandTextEnterKey}"/>
+            </TextBox.InputBindings>
+        </TextBox>
+
+        <TextBox Name="processOutputTextBox"  IsReadOnlyCaretVisible="True" IsReadOnly="True" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 TextChanged="processOutputTextBox_TextChanged"
+                 Text="{Binding Path=OutputText.StringValue, Mode=OneWay}" IsEnabled="{Binding Enabled, Mode=TwoWay}">
+        </TextBox>
+    </DockPanel>
+</UserControl>
