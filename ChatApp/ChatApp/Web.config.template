@@ -11,7 +11,6 @@
   </configSections>
   <connectionStrings>
     <add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-ChatApp-20151125123501.mdf;Initial Catalog=aspnet-ChatApp-20151125123501;Integrated Security=True" providerName="System.Data.SqlClient" />
-    <add name="AzureConnection" connectionString="Server=tcp:webcrawlersql.database.windows.net,1433;Initial Catalog=WebCrawlerSQL;Persist Security Info=False;User ID=punio7;Password=LLUA791PM#007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" providerName="System.Data.SqlClient" />
   </connectionStrings>
   <log4net>
     <appender name="RollingFileAppender" type="log4net.Appender.RollingFileAppender">
