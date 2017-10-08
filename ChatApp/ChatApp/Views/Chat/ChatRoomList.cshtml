@@ -3,7 +3,7 @@
     ViewBag.Title = "Lista pokoi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="~/Scripts/Views/Chat/ChatRoomList.js"></script>
 <div><br /></div>
 <h2>Utwórz nową sesję aplikacji</h2>
 <div class="row">
@@ -16,6 +16,30 @@
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-default">Utwórz nową sesję</button>
+        </div>
+    }
+</div>
+<div>
+    @Ajax.ActionLink("Wyświetl dialog", "GetDialogMsg", new AjaxOptions { OnSuccess = "showDialog", HttpMethod = "POST", LoadingElementId="loader" })
+</div>
+<div class=".ui-diaog" id="dialog">
+    <span id="dialog-msg"></span>
+</div>
+<div>
+    @using (Html.BeginForm("Session", "Chat", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="form-group">
+            <select name="sessionId" size="5" class="form-control">
+                @foreach (var session in Model.Sessions)
+                {
+                    <option value="@session.Id" class="form-control">
+                        @session.AppName
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Dołącz do sesji</button>
         </div>
     }
 </div>

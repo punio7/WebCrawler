@@ -16,9 +16,9 @@ namespace WebCrawler.HubModel.ServerModels
 
         public static readonly string sessionGroupPrefix = "sessionGroup_";
 
+        [ForeignKey(nameof(WorkerConnection))]
         public long? WorkerConnectionId { get; set; }
 
-        [ForeignKey(nameof(WorkerConnectionId))]
         public WorkerConnection WorkerConnection { get; set; }
 
         public SessionState State { get; set; }

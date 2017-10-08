@@ -40,8 +40,6 @@
         <ctrl:ProcessListView x:Name="processList" DockPanel.Dock="Left" Width="200" 
                               DataContext="{Binding Source={StaticResource Locator}, Path=ProcessList}"/>
         <ctrl:BottomPanelView x:Name="bottomPanel" DockPanel.Dock="Bottom" Height="75" Margin="10" />
-        <ctrl:ProcessOutputView x:Name="output" 
-                                DataContext="{Binding Source={StaticResource Locator}, Path=ProcessOutput}"/>
-
+        <ctrl:ProcessOutputView x:Name="output" DataContext="{Binding Source={StaticResource Locator}, Path=ProcessOutput}"/>
     </DockPanel>
 </Window>

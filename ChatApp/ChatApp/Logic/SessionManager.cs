@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -25,11 +26,11 @@ namespace WebCrawler.ChatApp.Logic
         }
         private static SessionManager _instance;
 
-        private Dictionary<long, ProcessSession> sessionCache;
+        private ConcurrentDictionary<long, ProcessSession> sessionCache;
 
         private SessionManager()
         {
-            sessionCache = new Dictionary<long, ProcessSession>();
+            sessionCache = new ConcurrentDictionary<long, ProcessSession>();
         }
 
         public ProcessSession StartNewSession(string userId, string appName)
@@ -45,10 +46,7 @@ namespace WebCrawler.ChatApp.Logic
                 dbContext.ProcessSessions.Add(session);
                 dbContext.SaveChanges();
             }
-            lock (sessionCache)
-            {
-                sessionCache[session.Id] = session;
-            }
+            sessionCache[session.Id] = session;
             return session;
         }
 
@@ -62,13 +60,22 @@ namespace WebCrawler.ChatApp.Logic
             {
                 ProcessSession processSession =
                         (from session in dbContext.ProcessSessions
-                        where session.Id == id
-                        select session).SingleOrDefault();
-                lock (sessionCache)
-                {
-                    sessionCache[id] = processSession;
-                }
+                         where session.Id == id
+                         select session).SingleOrDefault();
+                sessionCache[id] = processSession;
                 return processSession;
+            }
+        }
+
+        public IEnumerable<ProcessSession> GetActiveSessions()
+        {
+            using (ApplicationDbContext dbContext = ApplicationDbContext.Create())
+            {
+                var processSessionList =
+                        (from session in dbContext.ProcessSessions
+                         where session.State == SessionState.Active
+                         select session);
+                return processSessionList;
             }
         }
 
@@ -78,10 +85,7 @@ namespace WebCrawler.ChatApp.Logic
             {
                 dbContext.Entry(session).State = EntityState.Modified;
                 dbContext.SaveChanges();
-                lock (sessionCache)
-                {
-                    sessionCache[session.Id] = session;
-                }
+                sessionCache[session.Id] = session;
             }
         }
 
@@ -90,8 +94,8 @@ namespace WebCrawler.ChatApp.Logic
             using (ApplicationDbContext dbContext = ApplicationDbContext.Create())
             {
                 var sessionList = (from session in dbContext.ProcessSessions
-                                  where session.WorkerConnectionId == worker.Id
-                                  select session).ToList();
+                                   where session.WorkerConnectionId == worker.Id
+                                   select session).ToList();
                 foreach (var session in sessionList)
                 {
                     session.WorkerConnection = null;
@@ -104,12 +108,9 @@ namespace WebCrawler.ChatApp.Logic
 
         public void UpdateWorkerConnectionCache(WorkerConnection connection)
         {
-            lock (sessionCache)
+            foreach (ProcessSession session in sessionCache.Values.Where(s => s.WorkerConnectionId == connection.Id))
             {
-                foreach (ProcessSession session in sessionCache.Values.Where(s => s.WorkerConnectionId == connection.Id))
-                {
-                    session.WorkerConnection = connection;
-                } 
+                session.WorkerConnection = connection;
             }
         }
     }
