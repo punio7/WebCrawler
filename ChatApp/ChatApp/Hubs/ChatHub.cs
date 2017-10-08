@@ -22,7 +22,7 @@ namespace WebCrawler.ChatApp.Hubs
 
         public async Task RegisterWorker(RegisterWorkerArguments args)
         {
-            HubOperation(null, nameof(RegisterWorker), args, () =>
+            await HubOperation(nameof(RegisterWorker), args, async () =>
             {
                 WorkerManager.Instance.RegisterNewWorker(Context.ConnectionId, args);
             });
@@ -31,10 +31,10 @@ namespace WebCrawler.ChatApp.Hubs
         [Authorize]
         public async Task ClientJoinSession(long sessionId)
         {
-            var user = Context.User.Identity;
-            HubOperation(user, nameof(ClientJoinSession), sessionId, async () =>
+            await HubOperation(nameof(ClientJoinSession), sessionId, async () =>
             {
                 ProcessSession session = SessionManager.Instance.GetSession(sessionId);
+                var user = Context.User.Identity;
                 await Groups.Add(Context.ConnectionId, session.GroupName);
 
                 Clients.Group(session.GroupName).AddSystemMessage($"Użytkownik {user.Name} dołączył do sesji.");
@@ -63,10 +63,10 @@ namespace WebCrawler.ChatApp.Hubs
         [Authorize]
         public async Task ClientSendCommand(ExecuteProcessCommandArguments args)
         {
-            var user = Context.User.Identity;
-            HubOperation(user, nameof(ClientSendCommand), args, async () =>
+            await HubOperation(nameof(ClientSendCommand), args, async () =>
             {
                 ProcessSession session = SessionManager.Instance.GetSession(args.SessionId);
+                var user = Context.User.Identity;
 
                 if (session.CanSendCommands(user.GetUserId()))
                 {
@@ -77,7 +77,7 @@ namespace WebCrawler.ChatApp.Hubs
 
         public async Task WorkerSendOutput(WorkerSendOutputArguments args)
         {
-            HubOperation(null, nameof(WorkerSendOutput), args, async () =>
+            await HubOperation(nameof(WorkerSendOutput), args, async () =>
             {
                 ProcessSession session = SessionManager.Instance.GetSession(args.SessionId);
 
@@ -85,31 +85,43 @@ namespace WebCrawler.ChatApp.Hubs
             });
         }
 
+        public async Task WorkerEndSession(object args)
+        {
+            await HubOperation(nameof(WorkerEndSession), args, async () =>
+            {
+
+            });
+        }
+
         public override Task OnDisconnected(bool stopCalled)
         {
-            WorkerManager.Instance.WorkerDisconnection(Context.ConnectionId);
-            return base.OnDisconnected(stopCalled);
+            return HubOperation(nameof(OnDisconnected), stopCalled, () =>
+            {
+                WorkerManager.Instance.WorkerDisconnection(Context.ConnectionId);
+                return base.OnDisconnected(stopCalled);
+            });
         }
 
         #region Utils
 
-        protected void HubOperation<T>(IIdentity user, string method, T arguments, Action action)
+        protected async Task HubOperation<T>(string method, T arguments, Func<Task> action)
         {
             string log;
+            var user = Context.User.Identity;
             string argumentsString = arguments != null ? arguments.ToString() : "";
             if (user != null)
             {
-                log = $"User: {user.Name} Method: {method} Args: {argumentsString}";
+                log = $"ChatHub: User: {user.Name} Method: {method} Args: {argumentsString}";
             }
             else
             {
-                log = $"Method: {method} Args: {argumentsString}";
+                log = $"ChatHub: Method: {method} Args: {argumentsString}";
             }
 
             logger.Info(log);
             try
             {
-                action();
+                await action();
             }
             catch (Exception ex)
             {

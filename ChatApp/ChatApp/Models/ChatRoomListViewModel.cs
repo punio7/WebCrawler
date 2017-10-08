@@ -8,7 +8,6 @@ namespace WebCrawler.ChatApp.Models
 {
     public class ChatRoomListViewModel
     {
-        public Dictionary<int, string> ChatRooms { get; set; }
-        public Dictionary<string, ProcessSession> Sessions { get; set; }
+        public IEnumerable<ProcessSession> Sessions { get; set; }
     }
 }

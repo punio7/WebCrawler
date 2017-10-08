@@ -110,7 +110,6 @@ namespace WebCrawler.ChatApp.Logic
                                 select worker).FirstOrDefault();
                 if (workerDb != null)
                 {
-                    //SessionManager.Instance.UnregisterWorker(workerDb);
                     workerDb.State = WorkerConnectionState.Disconnected;
                     dbContext.Entry(workerDb).State = EntityState.Modified;
                     dbContext.SaveChanges();

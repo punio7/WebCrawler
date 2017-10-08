@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using WebCrawler.ChatApp.Models;
 using WebCrawler.ChatApp.Logic;
 using ChatApp.HubModel;
+using WebCrawler.HubModel.ServerModels;
 
 namespace ChatApp.Controllers
 {
@@ -81,10 +82,10 @@ namespace ChatApp.Controllers
 
         public ActionResult ChatRoomList()
         {
-            return View(new ChatRoomListViewModel()
-            {
-                ChatRooms = chatRoomNames,
-            });
+            var model = new ChatRoomListViewModel();
+            model.Sessions = SessionManager.Instance.GetActiveSessions();
+
+            return View(model);
         }
 
         [HttpPost]
@@ -101,6 +102,12 @@ namespace ChatApp.Controllers
             string userId = User.Identity.GetUserId();
             var session = SessionManager.Instance.StartNewSession(userId, appName);
             return RedirectToAction("SessionRoom", new RouteValueDictionary { { "sessionId", session.Id } });
+        }
+
+        public ActionResult GetDialogMsg()
+        {
+            System.Threading.Thread.Sleep(500);
+            return Json(new { msg = "Jakaś wiadomość."});
         }
     }
 }

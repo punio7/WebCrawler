@@ -11,5 +11,6 @@ namespace WebCrawler.HubModel.Enums
         NotStarted,
         Active,
         Idle,
+        Ended,
     }
 }
