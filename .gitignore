@@ -250,3 +250,7 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/ChatApp/ChatApp/Web.Release.config
+/ChatApp/ChatApp/Web.Debug.config
+/ChatApp/ChatApp/Web.config
+/ChatApp/ChatApp/logs/log.txt
