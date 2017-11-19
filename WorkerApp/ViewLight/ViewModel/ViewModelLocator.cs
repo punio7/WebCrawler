@@ -41,6 +41,7 @@ namespace WebCrawler.WorkerApp.ViewLight.ViewModel
             }
 
             SimpleIoc.Default.Register<ProcessInstanceFactory>();
+            SimpleIoc.Default.Register<ApplicationsManager>();
             SimpleIoc.Default.Register<ProcessManager>();
             SimpleIoc.Default.Register<HubConnectionManager>();
 
@@ -50,7 +51,6 @@ namespace WebCrawler.WorkerApp.ViewLight.ViewModel
             SimpleIoc.Default.Register<MainToolbarViewModel>();
             SimpleIoc.Default.Register<ProcessOutputViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
-            
         }
 
         /// <summary>

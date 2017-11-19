@@ -16,10 +16,10 @@ namespace WebCrawler.HubModel.ServerModels
 
         public static readonly string sessionGroupPrefix = "sessionGroup_";
 
-        [ForeignKey(nameof(WorkerConnection))]
         public long? WorkerConnectionId { get; set; }
 
-        public WorkerConnection WorkerConnection { get; set; }
+        [ForeignKey(nameof(WorkerConnectionId))]
+        public virtual WorkerConnection WorkerConnection { get; set; }
 
         public SessionState State { get; set; }
 
@@ -42,6 +42,11 @@ namespace WebCrawler.HubModel.ServerModels
         public bool CanSendCommands(string userId)
         {
             return userId == CreatorId;
+        }
+
+        public bool CanSendOutput(string userId)
+        {
+            return userId == WorkerConnection.ConnectionId;
         }
     }
 }

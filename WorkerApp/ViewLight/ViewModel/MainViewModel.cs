@@ -20,11 +20,11 @@ namespace WebCrawler.WorkerApp.ViewLight.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private ProcessListViewModel ProcessListViewModel { get; set; }
-        private MainToolbarViewModel MainToolbarViewModel { get; set; }
-        private ProcessOutputViewModel ProcessOutputViewModel { get; set; }
-        private HubConnectionViewModel HubConnectionViewModel { get; set; }
-        private ProcessManager ProcessManager { get; set; }
+        public ProcessListViewModel ProcessListViewModel { get; set; }
+        public MainToolbarViewModel MainToolbarViewModel { get; set; }
+        public ProcessOutputViewModel ProcessOutputViewModel { get; set; }
+        public HubConnectionViewModel HubConnectionViewModel { get; set; }
+        public ProcessManager ProcessManager { get; set; }
         private OpenFileDialog openExecutableDialog;
 
 

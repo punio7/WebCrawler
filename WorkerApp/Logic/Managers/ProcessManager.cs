@@ -17,10 +17,12 @@ namespace WebCrawler.WorkerApp.Logic.Managers
         public Dictionary<long, ProcessInstance> ProcessInstances { get; set; } = new Dictionary<long, ProcessInstance>();
 
         private ProcessInstanceFactory ProcessInstanceFactory { get; set; }
+        private ApplicationsManager ApplicationsManager { get; set; }
 
-        public ProcessManager(ProcessInstanceFactory processInstanceFactory)
+        public ProcessManager(ProcessInstanceFactory processInstanceFactory, ApplicationsManager applicationsManager)
         {
             ProcessInstanceFactory = processInstanceFactory;
+            ApplicationsManager = applicationsManager;
         }
 
         public ProcessInstance CreateNewProcessForLocalhost(string executablePath)
@@ -38,8 +40,9 @@ namespace WebCrawler.WorkerApp.Logic.Managers
 
         public ProcessInstance CreateNewProcess(StartProcessArguments args)
         {
-            FileInfo executableFile = new FileInfo(@"D:\workspace\Dungeon-Crawler\Debug\dungeon_crawler.exe");
-            var newProcess = ProcessInstanceFactory.CreateAndStartProcess(executableFile);
+            string path = ApplicationsManager.GetApplicationExecutablePath(args.ApplicationName);
+            FileInfo executableFile = new FileInfo(path);
+            ProcessInstance newProcess = ProcessInstanceFactory.CreateAndStartProcess(executableFile);
             newProcess.Name = args.ApplicationName;
             newProcess.User = args.UserName;
             newProcess.SessionId = args.SessionId;
@@ -59,10 +62,7 @@ namespace WebCrawler.WorkerApp.Logic.Managers
         {
             var processInstance = GetProcessInstance(sessionId);
             processInstance.OutputBuffer.AppendLine(command);
-            command += Environment.NewLine;
-            var bytes = Encoding.Unicode.GetBytes(command);
-            processInstance.Process.StandardInput.BaseStream.Write(bytes, 0, bytes.Length);
-            processInstance.Process.StandardInput.Flush();
+            processInstance.ProcessIoManager.WriteStdin(command);
         }
 
         private ProcessInstance GetProcessInstance(long sessionId)

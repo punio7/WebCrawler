@@ -145,7 +145,12 @@ namespace ProcessReadWriteUtils
             // Make sure we have a valid, running process
             CheckForValidProcess("Unable to write to process standard input.", true);
             if (runningProcess.StartInfo.RedirectStandardInput == true)
-                runningProcess.StandardInput.WriteLine(text);
+            {
+                text += Environment.NewLine;
+                var bytes = Encoding.Unicode.GetBytes(text);
+                runningProcess.StandardInput.BaseStream.Write(bytes, 0, bytes.Length);
+                runningProcess.StandardInput.Flush();
+            }
         }
         #endregion
 

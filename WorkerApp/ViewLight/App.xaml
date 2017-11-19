@@ -8,11 +8,7 @@
              StartupUri="MainWindow.xaml"
              mc:Ignorable="d ignore"
              Exit="Application_Exit">
-    
     <Application.Resources>
-        <!--Global View Model Locator-->
-        <vm:ViewModelLocator x:Key="Locator"
-                             d:IsDataSource="True" />
+        <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
     </Application.Resources>
-    
 </Application>

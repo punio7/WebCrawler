@@ -11,7 +11,7 @@
         Height="480"
         Width="640"
         Title="WebCrawler Worker App"
-        Loaded="Window_Loaded_1">
+        Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -34,12 +34,12 @@
 
     <DockPanel>
         <ctrl:MainToolbarView x:Name="mainToolbar" DockPanel.Dock="Top" Height="50" FlowDirection="LeftToRight" Margin="10" 
-                              DataContext="{Binding Source={StaticResource Locator}, Path=MainToolbar}"/>
+                              DataContext="{Binding MainToolbarViewModel}"/>
         <ctrl:HubConnectionView x:Name="hubConnection" DockPanel.Dock="Top"
-                                DataContext="{Binding Source={StaticResource Locator}, Path=HubConnection}" />
+                                DataContext="{Binding HubConnectionViewModel}" />
         <ctrl:ProcessListView x:Name="processList" DockPanel.Dock="Left" Width="200" 
-                              DataContext="{Binding Source={StaticResource Locator}, Path=ProcessList}"/>
+                              DataContext="{Binding ProcessListViewModel}"/>
         <ctrl:BottomPanelView x:Name="bottomPanel" DockPanel.Dock="Bottom" Height="75" Margin="10" />
-        <ctrl:ProcessOutputView x:Name="output" DataContext="{Binding Source={StaticResource Locator}, Path=ProcessOutput}"/>
+        <ctrl:ProcessOutputView x:Name="output" DataContext="{Binding ProcessOutputViewModel}"/>
     </DockPanel>
 </Window>

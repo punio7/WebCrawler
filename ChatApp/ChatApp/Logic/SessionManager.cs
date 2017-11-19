@@ -62,7 +62,10 @@ namespace WebCrawler.ChatApp.Logic
                         (from session in dbContext.ProcessSessions
                          where session.Id == id
                          select session).SingleOrDefault();
-                sessionCache[id] = processSession;
+                if (processSession != null)
+                {
+                    sessionCache[id] = processSession; 
+                }
                 return processSession;
             }
         }

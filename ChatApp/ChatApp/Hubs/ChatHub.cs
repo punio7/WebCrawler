@@ -81,7 +81,10 @@ namespace WebCrawler.ChatApp.Hubs
             {
                 ProcessSession session = SessionManager.Instance.GetSession(args.SessionId);
 
-                await Clients.Group(session.GroupName).AddMessage(args.Text);
+                if (session.CanSendOutput(Context.ConnectionId))
+                {
+                    await Clients.Group(session.GroupName).AddMessage(args.Text); 
+                }
             });
         }
 
@@ -104,18 +107,18 @@ namespace WebCrawler.ChatApp.Hubs
 
         #region Utils
 
-        protected async Task HubOperation<T>(string method, T arguments, Func<Task> action)
+        protected async Task HubOperation<T>(string methodName, T arguments, Func<Task> action)
         {
             string log;
             var user = Context.User.Identity;
             string argumentsString = arguments != null ? arguments.ToString() : "";
             if (user != null)
             {
-                log = $"ChatHub: User: {user.Name} Method: {method} Args: {argumentsString}";
+                log = $"ChatHub: User: {user.Name} Method: {methodName} Args: {argumentsString}";
             }
             else
             {
-                log = $"ChatHub: Method: {method} Args: {argumentsString}";
+                log = $"ChatHub: Method: {methodName} Args: {argumentsString}";
             }
 
             logger.Info(log);
@@ -125,7 +128,7 @@ namespace WebCrawler.ChatApp.Hubs
             }
             catch (Exception ex)
             {
-                logger.Error("Błąd w SignalRHub", ex);
+                logger.Error("Błąd w SignalR Hub", ex);
                 throw;
             }
         }

@@ -7,9 +7,9 @@
         xmlns:ignore="http://www.galasoft.ch/ignore"
         mc:Ignorable="d ignore">
 
-    <WrapPanel Margin="5" local:MarginSetter.Margin="5">
+    <WrapPanel Margin="5">
         <TextBox Name="hubUrlTextBox" MinWidth="250"
-                 Text="{Binding HubUrl}" IsEnabled="{Binding HubUrlEnabled, Mode=TwoWay}"/>
+                 Text="{Binding HubUrl}" IsEnabled="{Binding HubUrlEnabled, Mode=OneWay}"/>
         <Button Name="connectButton" Content="Połącz"
                 Command="{Binding Connect}" IsEnabled="{Binding ConnectEnabled}"/>
         <Button Name="disconnectButton" Content="Rozłącz"

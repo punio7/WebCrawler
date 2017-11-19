@@ -24,13 +24,5 @@ namespace WebCrawler.WorkerApp.ViewLight
             // Load data by setting the CollectionViewSource.Source property:
             // viewModelLocatorViewSource.Source = [generic data source]
         }
-
-        private void Window_Loaded_1(object sender, RoutedEventArgs e)
-        {
-
-            System.Windows.Data.CollectionViewSource viewModelLocatorViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("viewModelLocatorViewSource")));
-            // Load data by setting the CollectionViewSource.Source property:
-            // viewModelLocatorViewSource.Source = [generic data source]
-        }
     }
 }

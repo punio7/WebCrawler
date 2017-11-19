@@ -12,7 +12,6 @@ namespace WebCrawler.WorkerApp.Logic.Factories
     {
         public ProcessInstance CreateAndStartProcess(FileInfo executableFile)
         {
-            Random random = new Random();
             var processInstance = new ProcessInstance()
             {
                 Status = ProcessStatus.Running,
@@ -26,7 +25,7 @@ namespace WebCrawler.WorkerApp.Logic.Factories
             info.CreateNoWindow = true;
             info.StandardOutputEncoding = Encoding.Unicode;
 
-            var process = processInstance.Process = Process.Start(info);
+            Process process = processInstance.Process = Process.Start(info);
             processInstance.Pid = process.Id;
 
             processInstance.ProcessIoManager = new ProcessIoManager(process);

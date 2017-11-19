@@ -14,14 +14,17 @@ namespace ChatApp.Controllers
 {
     public class ChatController : Controller
     {
-        static ChatController()
-        {
-        }
-
-        // GET: Chat
         public ActionResult Index()
         {
             return RedirectToAction("ChatRoomList");
+        }
+
+        public ActionResult ChatRoomList()
+        {
+            ChatRoomListViewModel model = new ChatRoomListViewModel();
+            model.Sessions = SessionManager.Instance.GetActiveSessions();
+
+            return View(model);
         }
 
         [Authorize]
@@ -32,6 +35,10 @@ namespace ChatApp.Controllers
                 return RedirectToAction("ChatRoomList");
             }
             var session = SessionManager.Instance.GetSession(sessionId.Value);
+            if (session == null)
+            {
+                return HttpNotFound();
+            }
             var chatRoomModel = new ChatRoomViewModel
             {
                 SessionId = sessionId.Value,
@@ -41,15 +48,8 @@ namespace ChatApp.Controllers
             return View("ChatRoom", chatRoomModel);
         }
 
-        public ActionResult ChatRoomList()
-        {
-            var model = new ChatRoomListViewModel();
-            model.Sessions = SessionManager.Instance.GetActiveSessions();
-
-            return View(model);
-        }
-
         [HttpPost]
+        [Authorize]
         public ActionResult StartNewSession(string appName)
         {
             string userId = User.Identity.GetUserId();
