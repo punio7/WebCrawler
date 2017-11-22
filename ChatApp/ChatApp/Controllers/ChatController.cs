@@ -57,6 +57,13 @@ namespace ChatApp.Controllers
             return RedirectToAction("SessionRoom", new RouteValueDictionary { { "sessionId", session.Id } });
         }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult JoinToSession(long? sessionId)
+        {
+            return RedirectToAction("SessionRoom", new RouteValueDictionary { { "sessionId", sessionId } });
+        }
+
         public ActionResult GetDialogMsg()
         {
             System.Threading.Thread.Sleep(500);
