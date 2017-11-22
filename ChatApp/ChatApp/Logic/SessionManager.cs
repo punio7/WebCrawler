@@ -59,7 +59,7 @@ namespace WebCrawler.ChatApp.Logic
             using (ApplicationDbContext dbContext = ApplicationDbContext.Create())
             {
                 ProcessSession processSession =
-                        (from session in dbContext.ProcessSessions
+                        (from session in dbContext.ProcessSessions.Include(s => s.WorkerConnection)
                          where session.Id == id
                          select session).SingleOrDefault();
                 if (processSession != null)
@@ -75,10 +75,10 @@ namespace WebCrawler.ChatApp.Logic
             using (ApplicationDbContext dbContext = ApplicationDbContext.Create())
             {
                 var processSessionList =
-                        (from session in dbContext.ProcessSessions
+                        (from session in dbContext.ProcessSessions.Include(ps => ps.Creator)
                          where session.State == SessionState.Active
                          select session);
-                return processSessionList;
+                return processSessionList.ToList();
             }
         }
 
