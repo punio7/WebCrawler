@@ -20,14 +20,14 @@ namespace WebCrawler.WorkerApp.Logic.Managers
             ProcessManager = processManager;
         }
 
-        public HubConnection CreateHubConnection(string hubUrl)
+        public async Task<HubConnection> CreateHubConnection(string hubUrl)
         {
             if (connection == null)
             {
                 connection = new HubConnection(hubUrl);
                 hub = connection.CreateHubProxy("ChatHub");
                 connection.Closed += Connection_Closed;
-                connection.Start().Wait();
+                await connection.Start();
                 RegisterHubMethods();
                 RegisterWorker();
             }

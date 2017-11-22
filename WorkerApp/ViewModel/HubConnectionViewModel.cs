@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AspNet.SignalR.Client;
@@ -114,19 +116,27 @@ namespace WebCrawler.WorkerApp.ViewModel
                     ?? (_connect = new RelayCommand(
                     () =>
                     {
-                        try
-                        {
-                            hubConnection = HubConnectionManager.CreateHubConnection(HubUrl);
-                            hubConnection.StateChanged += HubConnection_StateChanged;
-                            hubConnection.Error += HubConnection_Error;
-                            HubConnection_StateChanged(new StateChange(ConnectionState.Disconnected, ConnectionState.Connected));
-                            RaisePropertyChanged(nameof(ConnectionState));
-                        }
-                        catch (Exception e)
-                        {
-                            HandleSignalRError(e);
-                        }
+                        WaitCallback calback = new WaitCallback(HubconnectionCallback);
+                        ThreadPool.QueueUserWorkItem(calback);
                     }));
+            }
+        }
+
+        private void HubconnectionCallback(object state)
+        {
+            try
+            {
+                Task<HubConnection> task = HubConnectionManager.CreateHubConnection(HubUrl);
+                task.Wait();
+                hubConnection = task.Result;
+                hubConnection.StateChanged += HubConnection_StateChanged;
+                hubConnection.Error += HubConnection_Error;
+                HubConnection_StateChanged(new StateChange(ConnectionState.Disconnected, ConnectionState.Connected));
+                RaisePropertyChanged(nameof(ConnectionState));
+            }
+            catch (Exception e)
+            {
+                HandleSignalRError(e);
             }
         }
 
