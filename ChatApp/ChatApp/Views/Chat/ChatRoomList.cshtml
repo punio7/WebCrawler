@@ -26,14 +26,14 @@
     <span id="dialog-msg"></span>
 </div>
 <div>
-    @using (Html.BeginForm("Session", "Chat", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("JoinToSession", "Chat", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         <div class="form-group">
             <select name="sessionId" size="5" class="form-control">
                 @foreach (var session in Model.Sessions)
                 {
                     <option value="@session.Id" class="form-control">
-                        @session.AppName
+                        @session.AppName - @session.Creator.DisplayName
                     </option>
                 }
             </select>

@@ -19,6 +19,12 @@ namespace WebCrawler.ChatApp.Hubs
     public class ChatHub : Hub
     {
         protected ILog logger = log4net.LogManager.GetLogger(typeof(ChatHub));
+        private UserManager UserManager;
+
+        public ChatHub()
+        {
+            UserManager = new UserManager();
+        }
 
         public async Task RegisterWorker(RegisterWorkerArguments args)
         {
@@ -34,10 +40,10 @@ namespace WebCrawler.ChatApp.Hubs
             await HubOperation(nameof(ClientJoinSession), sessionId, async () =>
             {
                 ProcessSession session = SessionManager.Instance.GetSession(sessionId);
-                var user = Context.User.Identity;
+                var user = UserManager.GetUserById(Context.User.Identity.GetUserId());
                 await Groups.Add(Context.ConnectionId, session.GroupName);
 
-                Clients.Group(session.GroupName).AddSystemMessage($"Użytkownik {user.Name} dołączył do sesji.");
+                Clients.Group(session.GroupName).AddSystemMessage($"Użytkownik {user.DisplayName} dołączył do sesji.");
 
                 if (session.State == SessionState.NotStarted)
                 {
@@ -46,10 +52,10 @@ namespace WebCrawler.ChatApp.Hubs
                     WorkerConnection worker = WorkerManager.Instance.GetAvaliableWorker(session.AppName);
                     StartProcessArguments args = new StartProcessArguments()
                     {
-                        UserName = Context.User.Identity.Name,
+                        UserName = user.Email,
                         SessionId = session.Id,
                         ApplicationName = session.AppName,
-                        UserId = Context.User.Identity.GetUserId(),
+                        UserId = user.Id,
                     };
                     await Clients.Client(worker.ConnectionId).StartProcess(args);
                     session.State = SessionState.Active;

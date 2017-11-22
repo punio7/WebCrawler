@@ -197,6 +197,7 @@
     </Compile>
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Logic\SessionManager.cs" />
+    <Compile Include="Logic\UserManager.cs" />
     <Compile Include="Migrations\201601301254231_Initial.cs" />
     <Compile Include="Migrations\201601301254231_Initial.Designer.cs">
       <DependentUpon>201601301254231_Initial.cs</DependentUpon>
@@ -289,8 +290,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="Properties\PublishProfiles\muckapchat %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\muckapchat.pubxml" />
+    <None Include="Properties\PublishProfiles\webcrawler2 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
