@@ -10,6 +10,7 @@ namespace WebCrawler.HubModel.Arguments
     {
         public long SessionId { get; set; }
         public string Text { get; set; }
+        public string ConnectionId { get; set; }
 
         public override string ToString()
         {

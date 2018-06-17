@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -187,7 +188,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\AppsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -224,14 +225,15 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ChatRoomListViewModel.cs" />
-    <Compile Include="Models\ChatRoomViewModel.cs" />
+    <Compile Include="Models\AppsListViewModel.cs" />
+    <Compile Include="Models\AppViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Logic\WorkerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\apps\DungeonCrawler\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -317,8 +319,8 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\Views\Chat\ChatRoom.js" />
-    <Content Include="Scripts\Views\Chat\ChatRoomList.js" />
+    <Content Include="Scripts\Views\Apps\DungeonCrawler.js" />
+    <Content Include="Scripts\Views\Apps\List.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -352,13 +354,13 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Chat\ChatRoom.cshtml" />
-    <Content Include="Views\Chat\ChatRoomList.cshtml" />
+    <Content Include="Views\Apps\DungeonCrawler.cshtml" />
+    <Content Include="Views\Apps\List.cshtml" />
     <Content Include="Views\Error\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\App\" />
+    <Folder Include="Scripts\apps\DungeonCrawler2\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

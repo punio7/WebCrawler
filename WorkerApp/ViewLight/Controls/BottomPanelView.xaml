@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <WrapPanel>
-        <Button>Akcja 1</Button>
-        <Button>Akcja 2</Button>
+        <Button>Wiadomość globalna</Button>
+        <Button>Wiadomość do sesji</Button>
     </WrapPanel>
 </UserControl>

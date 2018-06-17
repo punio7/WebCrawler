@@ -1,0 +1,48 @@
+﻿@model WebCrawler.ChatApp.Models.AppsListViewModel
+@{
+    ViewBag.Title = "Lista sesji";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/Views/Apps/List.js"></script>
+<div><br /></div>
+<h2>Utwórz nową sesję aplikacji</h2>
+<div class="row">
+    @using (Html.BeginForm("StartNewSession", "Apps", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <select name="appName" size="4" class="form-control">
+                <option value="DungeonCrawler" class="form-control">Dungeon Crawler</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Utwórz nową sesję</button>
+        </div>
+    }
+</div>
+@*<div>
+    @Ajax.ActionLink("Wyświetl dialog", "GetDialogMsg", new AjaxOptions { OnSuccess = "showDialog", HttpMethod = "POST", LoadingElementId="loader" })
+</div>*@
+<div class=".ui-diaog" id="dialog">
+    <span id="dialog-msg"></span>
+</div>
+<h2>Dołącz do istniejącej sesji</h2>
+<div class="row">
+    @using (Html.BeginForm("JoinToSession", "Apps", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <select name="sessionId" size="5" class="form-control">
+                @foreach (var session in Model.Sessions)
+                {
+                    <option value="@session.Id" class="form-control">
+                        @session.AppName - @session.Creator.DisplayName
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Dołącz do sesji</button>
+        </div>
+    }
+</div>

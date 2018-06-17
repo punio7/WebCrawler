@@ -10,7 +10,7 @@ namespace WebCrawler.WorkerApp.Logic.Managers
     {
         public string GetApplicationExecutablePath(string appName)
         {
-            return @"D:\workspace\Dungeon-Crawler\Debug\dungeon_crawler.exe";
+            return @"D:\workspace\Dungeon-Crawler\Release\dungeon_crawler.exe";
         }
     }
 }

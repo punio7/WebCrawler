@@ -52,6 +52,7 @@ namespace WebCrawler.WorkerApp.Logic.Managers
         {
             hub.On<StartProcessArguments>("StartProcess", args => StartProcess(args));
             hub.On<ExecuteProcessCommandArguments>("ExecuteProcessCommand", args => ExecuteProcessCommand(args));
+            hub.On<GetProcessOutputArguments>("GetProcessOutput", args => GetProcessOutput(args));
         }
 
         #region Server to worker
@@ -66,6 +67,21 @@ namespace WebCrawler.WorkerApp.Logic.Managers
         private void ExecuteProcessCommand(ExecuteProcessCommandArguments args)
         {
             ProcessManager.ExecuteCommand(args.SessionId, args.Command);
+        }
+
+        private void GetProcessOutput(GetProcessOutputArguments args)
+        {
+            string processOutput = ProcessManager.GetProcessOutput(args.SessionId);
+            if (CheckConnection())
+            {
+                WorkerSendOutputArguments argsSend = new WorkerSendOutputArguments()
+                {
+                    SessionId = args.SessionId,
+                    Text = processOutput,
+                    ConnectionId = args.ConnectionId,
+                };
+                hub.Invoke("WorkerSendOutput", argsSend);
+            }
         }
 
         #endregion

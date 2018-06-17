@@ -39,7 +39,7 @@
                                 DataContext="{Binding HubConnectionViewModel}" />
         <ctrl:ProcessListView x:Name="processList" DockPanel.Dock="Left" Width="200" 
                               DataContext="{Binding ProcessListViewModel}"/>
-        <ctrl:BottomPanelView x:Name="bottomPanel" DockPanel.Dock="Bottom" Height="75" Margin="10" />
+        <ctrl:BottomPanelView x:Name="bottomPanel" DockPanel.Dock="Bottom" Height="30" Margin="10" />
         <ctrl:ProcessOutputView x:Name="output" DataContext="{Binding ProcessOutputViewModel}"/>
     </DockPanel>
 </Window>

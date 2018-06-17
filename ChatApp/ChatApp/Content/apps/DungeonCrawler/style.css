@@ -1,0 +1,17 @@
+﻿.consoleContainer {
+    background-color: black;
+}
+
+.console {
+    /*width: inherit;*/
+    background-color: black;
+    display: block;
+}
+
+.console pre {
+    background-color: inherit;
+    color: white;
+    margin: 0px;
+    border: none;
+    padding: initial;
+}

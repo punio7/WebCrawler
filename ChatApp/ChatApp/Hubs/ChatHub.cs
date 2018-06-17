@@ -63,6 +63,14 @@ namespace WebCrawler.ChatApp.Hubs
                     session.WorkerConnectionId = worker.Id;
                     SessionManager.Instance.Update(session);
                 }
+                else
+                {
+                    await Clients.Client(session.WorkerConnection.ConnectionId).GetProcessOutput(new GetProcessOutputArguments()
+                    {
+                        SessionId = sessionId,
+                        ConnectionId = Context.ConnectionId,
+                    });
+                }
             });
         }
 
@@ -76,7 +84,22 @@ namespace WebCrawler.ChatApp.Hubs
 
                 if (session.CanSendCommands(user.GetUserId()))
                 {
+                    await Clients.Group(session.GroupName, Context.ConnectionId).AddMessage(args.Command);
                     await Clients.Client(session.WorkerConnection.ConnectionId).ExecuteProcessCommand(args);
+                }
+            });
+        }
+
+        public async Task ClientSendOutput(ClientSendOutputArguments args)
+        {
+            await HubOperation(nameof(ClientSendCommand), args, async () =>
+            {
+                ProcessSession session = SessionManager.Instance.GetSession(args.SessionId);
+                var user = Context.User.Identity;
+
+                if (session.CanSendCommands(user.GetUserId()))
+                {
+                    await Clients.Group(session.GroupName, Context.ConnectionId).AddMessage(args.Output);
                 }
             });
         }
@@ -89,7 +112,14 @@ namespace WebCrawler.ChatApp.Hubs
 
                 if (session.CanSendOutput(Context.ConnectionId))
                 {
-                    await Clients.Group(session.GroupName).AddMessage(args.Text); 
+                    if (args.ConnectionId == null)
+                    {
+                        await Clients.Group(session.GroupName).AddMessage(args.Text);  
+                    }
+                    else
+                    {
+                        await Clients.Client(args.ConnectionId).AddMessage(args.Text);
+                    }
                 }
             });
         }

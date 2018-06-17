@@ -65,6 +65,12 @@ namespace WebCrawler.WorkerApp.Logic.Managers
             processInstance.ProcessIoManager.WriteStdin(command);
         }
 
+        public string GetProcessOutput(long sessionId)
+        {
+            var processInstance = GetProcessInstance(sessionId);
+            return processInstance.OutputBuffer.StringValue;
+        }
+
         private ProcessInstance GetProcessInstance(long sessionId)
         {
             if (ProcessInstances.ContainsKey(sessionId))
