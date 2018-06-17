@@ -50,6 +50,23 @@ namespace WebCrawler.ChatApp.Logic
             return session;
         }
 
+        internal void CheckActiveSessions(string workerName, IEnumerable<long> sessionIdList)
+        {
+            using (ApplicationDbContext dbContext = ApplicationDbContext.Create())
+            {
+                var worker = dbContext.WorkerConnections.First(w => w.WorkerName == workerName);
+                var sessions = dbContext.ProcessSessions.Where(s => s.WorkerConnectionId == worker.Id);
+                foreach (ProcessSession session in sessions)
+                {
+                    if (!sessionIdList.Contains(session.Id))
+                    {
+                        session.State = SessionState.Finished;
+                    }
+                }
+                dbContext.SaveChanges();
+            }
+        }
+
         public ProcessSession GetSession(long id)
         {
             if (sessionCache.ContainsKey(id))

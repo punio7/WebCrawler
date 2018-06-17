@@ -18,7 +18,7 @@
         });
         $(window).on('unload', function () {
 
-        })
+        });
     });
 });
 

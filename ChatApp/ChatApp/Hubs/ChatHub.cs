@@ -31,6 +31,7 @@ namespace WebCrawler.ChatApp.Hubs
             await HubOperation(nameof(RegisterWorker), args, async () =>
             {
                 WorkerManager.Instance.RegisterNewWorker(Context.ConnectionId, args);
+                SessionManager.Instance.CheckActiveSessions(args.WorkerName, args.SessionIdList);
             });
         }
 

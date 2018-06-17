@@ -94,10 +94,11 @@ namespace WebCrawler.WorkerApp.Logic.Managers
             {
                 RegisterWorkerArguments args = new RegisterWorkerArguments()
                 {
-                    ActiveSessions = ProcessManager.ProcessInstances.Count,
-                    AllSessions = ProcessManager.ProcessInstances.Count,
+                    ActiveSessionCount = ProcessManager.ProcessInstances.Count,
+                    AllSessionCount = ProcessManager.ProcessInstances.Count,
                     MaxSessions = 20,
                     WorkerName = "WebCrawler Worker 1",
+                    SessionIdList = ProcessManager.ProcessInstances.Keys,
                 };
                 hub.Invoke("RegisterWorker", args); 
             }

@@ -223,6 +223,10 @@
     <Compile Include="Migrations\201610310754450_Dodanie WorkerConnection.State.Designer.cs">
       <DependentUpon>201610310754450_Dodanie WorkerConnection.State.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806171034520_Dodanie indeksów.cs" />
+    <Compile Include="Migrations\201806171034520_Dodanie indeksów.Designer.cs">
+      <DependentUpon>201806171034520_Dodanie indeksów.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppsListViewModel.cs" />
@@ -384,6 +388,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610310754450_Dodanie WorkerConnection.State.resx">
       <DependentUpon>201610310754450_Dodanie WorkerConnection.State.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806171034520_Dodanie indeksów.resx">
+      <DependentUpon>201806171034520_Dodanie indeksów.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

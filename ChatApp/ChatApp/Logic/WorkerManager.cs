@@ -47,8 +47,8 @@ namespace WebCrawler.ChatApp.Logic
                         ConnectionId = connectionId,
                         WorkerName = args.WorkerName,
                         MaxSessions = args.MaxSessions,
-                        ActiveSessions = args.ActiveSessions,
-                        AllSessions = args.AllSessions,
+                        ActiveSessions = args.ActiveSessionCount,
+                        AllSessions = args.AllSessionCount,
                         State = WorkerConnectionState.Connected,
                     };
                     dbContext.WorkerConnections.Add(worker); 
@@ -57,8 +57,8 @@ namespace WebCrawler.ChatApp.Logic
                 {
                     workerDb.ConnectionId = connectionId;
                     workerDb.MaxSessions = args.MaxSessions;
-                    workerDb.AllSessions = args.AllSessions;
-                    workerDb.ActiveSessions = args.ActiveSessions;
+                    workerDb.AllSessions = args.ActiveSessionCount;
+                    workerDb.ActiveSessions = args.AllSessionCount;
                     workerDb.State = WorkerConnectionState.Connected;
 
                     SessionManager.Instance.UpdateWorkerConnectionCache(workerDb);
