@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using GalaSoft.MvvmLight.Threading;
+using WebCrawler.WorkerApp.ViewLight.ViewModel;
 
 namespace WebCrawler.WorkerApp.ViewLight
 {
@@ -15,7 +16,12 @@ namespace WebCrawler.WorkerApp.ViewLight
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
+            ViewModelLocator.Cleanup();
+        }
 
+        private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
+        {
+            ViewModelLocator.Cleanup();
         }
     }
 }
