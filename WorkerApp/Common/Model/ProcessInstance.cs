@@ -13,6 +13,7 @@ namespace WebCrawler.WorkerApp.Common.Model
     {
         public delegate void ProcessOutputEventHandler(ProcessInstance sender, string text);
         public event ProcessOutputEventHandler OutputRead = delegate { };
+        public event Action<ProcessInstance> OnExit = delegate { };
         public int Pid { get; set; }
         public string Name { get; set; }
         public string User { get; set; }
@@ -42,11 +43,17 @@ namespace WebCrawler.WorkerApp.Common.Model
             HandleProcessOutput(text);
         }
 
+        public void ExitEvent(object sender, EventArgs e)
+        {
+            OnExit(this);
+        }
+
         public void Kill()
         {
             if (Process != null)
             {
                 Process.Kill();
+                OnExit(this);
                 Process = null;
             }
         }

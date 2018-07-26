@@ -27,6 +27,7 @@ namespace WebCrawler.WorkerApp.Logic.Factories
 
             Process process = processInstance.Process = Process.Start(info);
             processInstance.Pid = process.Id;
+            process.Exited += processInstance.ExitEvent;
 
             processInstance.ProcessIoManager = new ProcessIoManager(process);
             processInstance.ProcessIoManager.StderrTextRead += processInstance.StandardErrorEvent;

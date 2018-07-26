@@ -43,7 +43,7 @@ namespace WebCrawler.HubModel.ServerModels
 
         public bool CanSendCommands(string userId)
         {
-            return userId == CreatorId;
+            return userId == CreatorId && State == SessionState.Active;
         }
 
         public bool CanSendOutput(string userId)

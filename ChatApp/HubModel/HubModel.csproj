@@ -61,6 +61,7 @@
     <Compile Include="Arguments\ClientSendOutputArguments.cs" />
     <Compile Include="Arguments\ExecuteProcessCommandArguments.cs" />
     <Compile Include="Arguments\GetProcessOutputArguments.cs" />
+    <Compile Include="Arguments\WorkerEndProcessArguments.cs" />
     <Compile Include="Arguments\WorkerSendOutputArguments.cs" />
     <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="Enums\WorkerConnectionState.cs" />

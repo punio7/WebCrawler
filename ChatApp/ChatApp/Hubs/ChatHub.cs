@@ -31,7 +31,12 @@ namespace WebCrawler.ChatApp.Hubs
             await HubOperation(nameof(RegisterWorker), args, async () =>
             {
                 WorkerManager.Instance.RegisterNewWorker(Context.ConnectionId, args);
-                SessionManager.Instance.CheckActiveSessions(args.WorkerName, args.SessionIdList);
+                IEnumerable<ProcessSession> terminatedSessions;
+                SessionManager.Instance.CheckActiveSessions(args.WorkerName, args.SessionIdList, out terminatedSessions);
+                foreach (var session in terminatedSessions)
+                {
+                    await Clients.Group(session.GroupName).AddSystemMessage("Sesja zakończona przez serwer wykonawczy.");
+                }
             });
         }
 
@@ -125,11 +130,14 @@ namespace WebCrawler.ChatApp.Hubs
             });
         }
 
-        public async Task WorkerEndSession(object args)
+        public async Task WorkerEndProcess(WorkerEndProcessArguments args)
         {
-            await HubOperation(nameof(WorkerEndSession), args, async () =>
+            await HubOperation(nameof(WorkerEndProcess), args, async () =>
             {
-
+                var session = SessionManager.Instance.GetSession(args.SessionId);
+                await Clients.Group(session.GroupName).AddSystemMessage("Sesja zakończona przez serwer wykonawczy.");
+                session.State = SessionState.Finished;
+                SessionManager.Instance.Update(session);
             });
         }
 

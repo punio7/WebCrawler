@@ -61,6 +61,7 @@ namespace WebCrawler.WorkerApp.Logic.Managers
         {
             var process = ProcessManager.CreateNewProcess(args);
             process.OutputRead += WorkerSendOutput;
+            process.OnExit += WorkerProcessExit;
             process.StartReadingOutput();
         }
 
@@ -116,6 +117,18 @@ namespace WebCrawler.WorkerApp.Logic.Managers
                 hub.Invoke("WorkerSendOutput", args).Wait();
             }
         } 
+
+        private void WorkerProcessExit(ProcessInstance sender)
+        {
+            if (CheckConnection())
+            {
+                WorkerEndProcessArguments args = new WorkerEndProcessArguments()
+                {
+                    SessionId = sender.SessionId,
+                };
+                hub.Invoke("WorkerEndProcess", args);
+            }
+        }
 
         #endregion
 
