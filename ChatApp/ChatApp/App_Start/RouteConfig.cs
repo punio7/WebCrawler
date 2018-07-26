@@ -12,6 +12,7 @@ namespace ChatApp
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{file}.json");
 
             routes.MapRoute(
                 name: "Default",
