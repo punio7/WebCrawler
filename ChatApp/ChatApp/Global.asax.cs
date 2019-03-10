@@ -50,7 +50,7 @@ namespace ChatApp
                 switch (httpEx.GetHttpCode())
                 {
                     case 404:
-                        action = "NotFound";
+                        action = "NotFoundException";
                         break;
 
                         // others if any

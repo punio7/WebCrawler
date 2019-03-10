@@ -3,13 +3,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Error";
 }
-<div class="list-header clearfix">
-    <span>Error</span>
-</div>
-<div class="list-sfs-holder">
-    <div class="alert alert-error">
-        An unexpected error has occurred. Please contact the system administrator.
-    </div>
+
+<div>
+    <h1>
+        Wystąpił błąd podczas obsługi żądania
+    </h1>
+    <h2>
+        @ViewBag.Message
+    </h2>
+    @Html.ActionLink("Przejdź do strony głównej", "Index", "Home")
+
     @if (Model != null && HttpContext.Current.IsDebuggingEnabled)
     {
         <div>

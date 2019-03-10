@@ -63,7 +63,8 @@ namespace WebCrawler.ChatApp.Hubs
                         ApplicationName = session.AppName,
                         UserId = user.Id,
                     };
-                    await Clients.Client(worker.ConnectionId).StartProcess(args);
+                    dynamic workerSignalR = GetWorkerContext(worker);
+                    await workerSignalR.StartProcess(args);
                     session.State = SessionState.Active;
                     session.WorkerConnection = worker;
                     session.WorkerConnectionId = worker.Id;
@@ -91,7 +92,8 @@ namespace WebCrawler.ChatApp.Hubs
                 if (session.CanSendCommands(user.GetUserId()))
                 {
                     await Clients.Group(session.GroupName, Context.ConnectionId).AddMessage(args.Command);
-                    await Clients.Client(session.WorkerConnection.ConnectionId).ExecuteProcessCommand(args);
+                    var workerContext = GetWorkerContext(session.WorkerConnection);
+                    await workerContext.ExecuteProcessCommand(args);
                 }
             });
         }
@@ -151,6 +153,20 @@ namespace WebCrawler.ChatApp.Hubs
         }
 
         #region Utils
+
+        private dynamic GetWorkerContext(WorkerConnection worker)
+        {
+            if (worker == null)
+            {
+                throw new Exception("Brak dostępnych sererów wykonawczych.");
+            }
+            var workerContext = Clients.Client(worker.ConnectionId);
+            if (workerContext == null)
+            {
+                throw new Exception("Brak połączenia z serwerem wykonawczym.");
+            }
+            return workerContext;
+        }
 
         protected async Task HubOperation<T>(string methodName, T arguments, Func<Task> action)
         {

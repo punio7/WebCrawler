@@ -15,8 +15,9 @@ namespace WebCrawler.ChatApp.Filters
             string userName = user != null ? user.Identity.Name : String.Empty;
             string controllerName = filterContext.Controller.GetType().Name;
             string actionName = filterContext.ActionDescriptor.ActionName;
+            string parameters = String.Join("), (", filterContext.ActionParameters.Select(kv => $"Key: {kv.Key} Value: {kv.Value}"));
 
-            logger.Info($"User: {userName} Controller: {controllerName} Action: {actionName}");
+            logger.Info($"User: {userName} Controller: {controllerName} Action: {actionName}, Parameters: ({parameters})");
 
             base.OnActionExecuting(filterContext);
         }

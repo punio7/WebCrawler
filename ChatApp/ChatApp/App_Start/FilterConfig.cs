@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using WebCrawler.ChatApp.Filters;
 
 namespace ChatApp
 {
@@ -7,7 +8,7 @@ namespace ChatApp
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            //filters.Add(new HandleErrorAttribute());
+            filters.Add(new LoggingActionFilter());
         }
     }
 }

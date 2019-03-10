@@ -355,7 +355,7 @@
     <Content Include="Content\apps\DungeonCrawler2\res\Item-Schema.json" />
     <Content Include="Content\apps\DungeonCrawler2\res\Items.json" />
     <Content Include="Content\apps\DungeonCrawler2\res\ItemTypes.json" />
-    <None Include="Properties\PublishProfiles\webcrawler2 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\AppWorker - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -386,7 +386,9 @@
     <Content Include="Scripts\Views\Apps\DungeonCrawler.js" />
     <Content Include="Scripts\Views\Apps\List.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

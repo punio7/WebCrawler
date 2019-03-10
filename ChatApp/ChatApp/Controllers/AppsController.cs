@@ -9,6 +9,7 @@ using WebCrawler.ChatApp.Models;
 using WebCrawler.ChatApp.Logic;
 using ChatApp.HubModel;
 using WebCrawler.HubModel.ServerModels;
+using WebCrawler.ChatApp.Filters;
 
 namespace ChatApp.Controllers
 {
@@ -40,7 +41,7 @@ namespace ChatApp.Controllers
             var session = SessionManager.Instance.GetSession(sessionId.Value);
             if (session == null || session.AppName != appName)
             {
-                return HttpNotFound();
+                throw new HttpException(404, $"SessionRoom not found for App: {appName} and Id: {sessionId}");
             }
             var appRoomModel = new AppViewModel
             {
