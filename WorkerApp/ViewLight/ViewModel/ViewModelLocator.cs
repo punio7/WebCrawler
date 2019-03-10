@@ -9,8 +9,8 @@
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 */
 
+using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
 using ViewLight.Model;
 using WebCrawler.WorkerApp.Logic.Factories;
 using WebCrawler.WorkerApp.Logic.Managers;

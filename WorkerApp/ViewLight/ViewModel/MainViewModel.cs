@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
-using Microsoft.Practices.ServiceLocation;
 using Microsoft.Win32;
 using ViewLight.Model;
 using WebCrawler.Common.Enums;
