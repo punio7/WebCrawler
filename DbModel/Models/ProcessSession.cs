@@ -1,26 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using WebCrawler.WebApp.DbModel.Enums;
+﻿using WebCrawler.WebApp.DbModel.Enums;
 
 namespace WebCrawler.WebApp.DbModel.Models
 {
     public class ProcessSession
     {
-        [Key]
         public long Id { get; set; }
 
         public static readonly string sessionGroupPrefix = "sessionGroup_";
 
-        [ForeignKey(nameof(WorkerConnection))]
-        //[Index]
         public long? WorkerConnectionId { get; set; }
 
-        public virtual WorkerConnection WorkerConnection { get; set; }
+        public WorkerConnection WorkerConnection { get; set; }
 
-        //[Index]
         public SessionState State { get; set; }
 
-        [NotMapped]
         public string GroupName
         {
             get
@@ -29,7 +22,6 @@ namespace WebCrawler.WebApp.DbModel.Models
             }
         }
 
-        [ForeignKey(nameof(Creator))]
         public string CreatorId { get; set; }
 
         public virtual ApplicationUser Creator { get; set; }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebCrawler.WebApp.DbModel;
 
 namespace WebCrawler.WebApp.DbModel.Migrations
 {
     [DbContext(typeof(WebCrawlerDbContext))]
-    partial class WebCrawlerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200526185145_AddIndexes")]
+    partial class AddIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,11 +190,9 @@ namespace WebCrawler.WebApp.DbModel.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AppName")
-                        .IsRequired();
+                    b.Property<string>("AppName");
 
-                    b.Property<string>("CreatorId")
-                        .IsRequired();
+                    b.Property<string>("CreatorId");
 
                     b.Property<int>("State");
 
@@ -286,8 +286,7 @@ namespace WebCrawler.WebApp.DbModel.Migrations
                 {
                     b.HasOne("WebCrawler.WebApp.DbModel.Models.ApplicationUser", "Creator")
                         .WithMany()
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CreatorId");
 
                     b.HasOne("WebCrawler.WebApp.DbModel.Models.WorkerConnection", "WorkerConnection")
                         .WithMany("ProcesSessions")

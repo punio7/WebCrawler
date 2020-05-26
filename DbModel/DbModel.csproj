@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebCrawler.WebApp.DbModel</RootNamespace>
     <AssemblyName>DbModel</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -221,7 +222,21 @@
     <Compile Include="Migrations\20200526154038_Initial.designer.cs">
       <DependentUpon>20200526154038_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200526185145_AddIndexes.cs" />
+    <Compile Include="Migrations\20200526185145_AddIndexes.designer.cs">
+      <DependentUpon>20200526185145_AddIndexes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200526190335_AlterProcessSessions.cs" />
+    <Compile Include="Migrations\20200526190335_AlterProcessSessions.designer.cs">
+      <DependentUpon>20200526190335_AlterProcessSessions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\WebCrawlerDbContextModelSnapshot.cs" />
+    <Compile Include="ModelBuilders\AllModelBuilder.cs" />
+    <Compile Include="ModelBuilders\ApplicationUserBuilder.cs" />
+    <Compile Include="ModelBuilders\IModelBuilder.cs" />
+    <Compile Include="ModelBuilders\ModelBuilderBase.cs" />
+    <Compile Include="ModelBuilders\ProcessSessionBuilder.cs" />
+    <Compile Include="ModelBuilders\WorkerConnectionBuilder.cs" />
     <Compile Include="WebCrawlerDbContext.cs" />
     <Compile Include="Enums\SessionState.cs" />
     <Compile Include="Enums\WorkerConnectionState.cs" />

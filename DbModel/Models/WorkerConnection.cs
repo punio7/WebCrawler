@@ -1,16 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using WebCrawler.WebApp.DbModel.Enums;
 
 namespace WebCrawler.WebApp.DbModel.Models
 {
     public class WorkerConnection
     {
-        [Key]
         public long Id { get; set; }
 
-        //[Index]
-        //[Column(TypeName = "VARCHAR")]
-        [StringLength(50)]
         public string WorkerName { get; set; }
 
         public string ConnectionId { get; set; }
@@ -22,5 +18,7 @@ namespace WebCrawler.WebApp.DbModel.Models
         public int AllSessions { get; set; }
 
         public WorkerConnectionState State { get; set; }
+
+        public List<ProcessSession> ProcesSessions { get; set; }
     }
 }
