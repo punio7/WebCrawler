@@ -18,7 +18,7 @@ namespace ChatApp.HubModel
         {
             get
             {
-                return "AzureConnection";
+                return "DefaultConnection";
             }
         }
 

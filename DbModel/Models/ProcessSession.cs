@@ -1,0 +1,49 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using WebCrawler.WebApp.DbModel.Enums;
+
+namespace WebCrawler.WebApp.DbModel.Models
+{
+    public class ProcessSession
+    {
+        [Key]
+        public long Id { get; set; }
+
+        public static readonly string sessionGroupPrefix = "sessionGroup_";
+
+        [ForeignKey(nameof(WorkerConnection))]
+        //[Index]
+        public long? WorkerConnectionId { get; set; }
+
+        public virtual WorkerConnection WorkerConnection { get; set; }
+
+        //[Index]
+        public SessionState State { get; set; }
+
+        [NotMapped]
+        public string GroupName
+        {
+            get
+            {
+                return $"{sessionGroupPrefix}{Id}";
+            }
+        }
+
+        [ForeignKey(nameof(Creator))]
+        public string CreatorId { get; set; }
+
+        public virtual ApplicationUser Creator { get; set; }
+
+        public string AppName { get; set; }
+
+        public bool CanSendCommands(string userId)
+        {
+            return userId == CreatorId && State == SessionState.Active;
+        }
+
+        public bool CanSendOutput(string userId)
+        {
+            return userId == WorkerConnection.ConnectionId;
+        }
+    }
+}
