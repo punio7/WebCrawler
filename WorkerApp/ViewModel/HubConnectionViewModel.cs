@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using GalaSoft.MvvmLight.Command;
-using Microsoft.AspNet.SignalR.Client;
+using Microsoft.AspNetCore.SignalR.Client;
 using WebCrawler.WorkerApp.Logic.Managers;
 
 namespace WebCrawler.WorkerApp.ViewModel
@@ -17,7 +16,18 @@ namespace WebCrawler.WorkerApp.ViewModel
             HubConnectionManager = hubConnectionManager;
         }
 
-        private string _hubUrl = @"http://localhost:80/";
+        private class StateChange
+        {
+            public StateChange(HubConnectionState oldState, HubConnectionState newState)
+            {
+                OldState = oldState;
+                NewState = newState;
+            }
+            public HubConnectionState OldState { get; set; }
+            public HubConnectionState NewState { get; set; }
+        }
+
+        private string _hubUrl = @"https://localhost:44399/";
         public string HubUrl
         {
             get
@@ -97,12 +107,12 @@ namespace WebCrawler.WorkerApp.ViewModel
             }
         }
 
-        public ConnectionState ConnectionState
+        public HubConnectionState ConnectionState
         {
             get
             {
                 return hubConnection != null ?
-                    hubConnection.State : ConnectionState.Disconnected;
+                    hubConnection.State : HubConnectionState.Disconnected;
             }
         }
 
@@ -122,17 +132,16 @@ namespace WebCrawler.WorkerApp.ViewModel
             }
         }
 
-        private void HubconnectionCallback(object state)
+        private async void HubconnectionCallback(object state)
         {
             try
             {
                 Task<HubConnection> task = HubConnectionManager.CreateHubConnection(HubUrl);
-                task.Wait();
-                hubConnection = task.Result;
-                hubConnection.StateChanged += HubConnection_StateChanged;
-                hubConnection.Error += HubConnection_Error;
-                HubConnection_StateChanged(new StateChange(ConnectionState.Disconnected, ConnectionState.Connected));
-                RaisePropertyChanged(nameof(ConnectionState));
+                hubConnection = await task;
+                //hubConnection.StateChanged += HubConnection_StateChanged;
+                //hubConnection.Error += HubConnection_Error;
+                HubConnection_StateChanged(new StateChange(HubConnectionState.Disconnected, HubConnectionState.Connected));
+                //RaisePropertyChanged(nameof(ConnectionState));
             }
             catch (Exception e)
             {
@@ -152,11 +161,12 @@ namespace WebCrawler.WorkerApp.ViewModel
             {
                 return _disconnect
                     ?? (_disconnect = new RelayCommand(
-                    () =>
+                    async () =>
                     {
                         try
                         {
-                            HubConnectionManager.Disconnect();
+                            await HubConnectionManager.Disconnect();
+                            HubConnection_StateChanged(new StateChange(HubConnectionState.Connected, HubConnectionState.Disconnected));
                             RaisePropertyChanged(nameof(ConnectionState));
                             _connect.RaiseCanExecuteChanged();
                         }
@@ -171,12 +181,12 @@ namespace WebCrawler.WorkerApp.ViewModel
         private void HubConnection_StateChanged(StateChange args)
         {
             RaisePropertyChanged(nameof(ConnectionState));
-            if (args.NewState == ConnectionState.Disconnected)
+            if (args.NewState == HubConnectionState.Disconnected)
             {
                 ConnectEnabled = true;
                 DisconnectEnabled = false;
             }
-            if (args.NewState != ConnectionState.Disconnected)
+            if (args.NewState != HubConnectionState.Disconnected)
             {
                 ConnectEnabled = false;
                 DisconnectEnabled = true;

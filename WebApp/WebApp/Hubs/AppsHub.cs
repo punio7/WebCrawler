@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using log4net;
-using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using WebCrawler.HubModel.Arguments;
@@ -13,7 +12,6 @@ using WebCrawler.WebApp.Logic;
 
 namespace WebApp.Hubs
 {
-    [HubName("AppsHub")]
     public class AppsHub : Hub
     {
         protected ILog logger = log4net.LogManager.GetLogger(typeof(AppsHub));
@@ -145,12 +143,12 @@ namespace WebApp.Hubs
             });
         }
 
-        public override Task OnConnectedAsync()
+        public override Task OnDisconnectedAsync(Exception exception)
         {
-            return HubOperation(nameof(OnConnectedAsync), string.Empty, () =>
+            return HubOperation(nameof(OnDisconnectedAsync), string.Empty, () =>
             {
                 workerManager.WorkerDisconnection(Context.ConnectionId);
-                return base.OnConnectedAsync();
+                return base.OnDisconnectedAsync(exception);
             });
         }
 

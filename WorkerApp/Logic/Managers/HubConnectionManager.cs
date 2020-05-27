@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR.Client;
+using Microsoft.AspNetCore.SignalR.Client;
 using WebCrawler.HubModel.Arguments;
 using WebCrawler.WorkerApp.Common.Model;
 
@@ -12,7 +9,6 @@ namespace WebCrawler.WorkerApp.Logic.Managers
     public class HubConnectionManager : IDisposable
     {
         private ProcessManager ProcessManager { get; set; }
-        private IHubProxy hub;
         private HubConnection connection;
 
         public HubConnectionManager(ProcessManager processManager)
@@ -24,35 +20,39 @@ namespace WebCrawler.WorkerApp.Logic.Managers
         {
             if (connection == null)
             {
-                connection = new HubConnection(hubUrl);
-                hub = connection.CreateHubProxy("ChatHub");
+
+                connection = new HubConnectionBuilder()
+                    .WithUrl(hubUrl + "/appsHub")
+                    .Build();
                 connection.Closed += Connection_Closed;
-                await connection.Start();
+
+                await connection.StartAsync();
                 RegisterHubMethods();
                 RegisterWorker();
             }
             return connection;
         }
 
-        private void Connection_Closed()
+        private Task Connection_Closed(Exception exception)
         {
             connection = null;
+            return Task.CompletedTask;
         }
 
-        public void Disconnect()
+        public async Task Disconnect()
         {
             if (connection != null)
             {
-                connection.Stop();
+                await connection.StopAsync();
                 connection = null;
             }
         }
 
         private void RegisterHubMethods()
         {
-            hub.On<StartProcessArguments>("StartProcess", args => StartProcess(args));
-            hub.On<ExecuteProcessCommandArguments>("ExecuteProcessCommand", args => ExecuteProcessCommand(args));
-            hub.On<GetProcessOutputArguments>("GetProcessOutput", args => GetProcessOutput(args));
+            connection.On<StartProcessArguments>("StartProcess", args => StartProcess(args));
+            connection.On<ExecuteProcessCommandArguments>("ExecuteProcessCommand", args => ExecuteProcessCommand(args));
+            connection.On<GetProcessOutputArguments>("GetProcessOutput", args => GetProcessOutput(args));
         }
 
         #region Server to worker
@@ -81,7 +81,7 @@ namespace WebCrawler.WorkerApp.Logic.Managers
                     Text = processOutput,
                     ConnectionId = args.ConnectionId,
                 };
-                hub.Invoke("WorkerSendOutput", argsSend);
+                connection.InvokeAsync("WorkerSendOutput", argsSend);
             }
         }
 
@@ -98,10 +98,10 @@ namespace WebCrawler.WorkerApp.Logic.Managers
                     ActiveSessionCount = ProcessManager.ProcessInstances.Count,
                     AllSessionCount = ProcessManager.ProcessInstances.Count,
                     MaxSessions = 20,
-                    WorkerName = "WebCrawler Worker 1",
+                    WorkerName = "WebCrawlerWorker1",
                     SessionIdList = ProcessManager.ProcessInstances.Keys,
                 };
-                hub.Invoke("RegisterWorker", args); 
+                connection.InvokeAsync("RegisterWorker", args); 
             }
         }
 
@@ -114,7 +114,7 @@ namespace WebCrawler.WorkerApp.Logic.Managers
                     SessionId = sender.SessionId,
                     Text = text,
                 };
-                hub.Invoke("WorkerSendOutput", args).Wait();
+                connection.InvokeAsync("WorkerSendOutput", args).Wait();
             }
         } 
 
@@ -126,7 +126,7 @@ namespace WebCrawler.WorkerApp.Logic.Managers
                 {
                     SessionId = sender.SessionId,
                 };
-                hub.Invoke("WorkerEndProcess", args);
+                connection.InvokeAsync("WorkerEndProcess", args);
             }
         }
 
@@ -134,14 +134,14 @@ namespace WebCrawler.WorkerApp.Logic.Managers
 
         private bool CheckConnection()
         {
-            return connection != null && connection.State == ConnectionState.Connected;
+            return connection != null && connection.State == HubConnectionState.Connected;
         }
 
         public void Dispose()
         {
             if (connection != null)
             {
-                connection.Stop();
+                connection.StopAsync();
             }
         }
     }
