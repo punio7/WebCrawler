@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <DebugType>full</DebugType>
     <UserSecretsId>aspnet-WebApp-69DCB45F-87E6-4CDD-9BBD-CB65682235DA</UserSecretsId>
     <RootNamespace>WebCrawler.WebApp.WebApp</RootNamespace>
