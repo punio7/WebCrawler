@@ -35,3 +35,11 @@ body {
         display: none;
     }
 }
+
+.no-padding > div {
+    padding: unset;
+}
+
+.table-vertical-middle > tbody > tr > td {
+    vertical-align: middle;
+}

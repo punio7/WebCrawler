@@ -1,7 +1,30 @@
 ﻿@model WebCrawler.WebApp.WebApp.Models.Apps.ListSessionsViewModel
 @{
-    ViewData["Title"] = "ListSessions";
+    ViewData["Title"] = "Lista sesji";
 }
 
-<h2>ListSessions</h2>
+<h2>@ViewData["Title"]</h2>
 
+<table class="table-hover table-vertical-middle">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Aplikacja</th>
+            <th>Twórca</th>
+            <th>Stan</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var session in Model.Sessions)
+        {
+            <tr>
+                <td>1</td>
+                <td>@session.AppName</td>
+                <td>@session.Creator.DisplayName</td>
+                <td>@session.State.ToString()</td>
+                <td><button>Dołącz</button></td>
+            </tr>
+        }
+    </tbody>
+</table>

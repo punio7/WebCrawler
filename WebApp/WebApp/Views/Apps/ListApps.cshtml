@@ -1,6 +1,24 @@
 ﻿@model WebCrawler.WebApp.WebApp.Models.Apps.ListAppsViewModel
 @{
-    ViewData["Title"] = "ListApps";
+    ViewData["Title"] = "Utwórz sesję";
 }
 
-<h2>ListSessions</h2>
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    @foreach (var app in Model.Apps)
+    {
+        <div class="sm-12 md-6 lg-4 col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">@app.DisplayName</h4>
+                    @*<h5 class="card-subtitle">Nice looking subtitle.</h5>*@
+                    <p class="card-text">@app.Description</p>
+                    @*<a class="card-link" href="#">First link</a>
+                        <a class="card-link" href="#">Second link</a>*@
+                    <button>Utwórz sesję</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>

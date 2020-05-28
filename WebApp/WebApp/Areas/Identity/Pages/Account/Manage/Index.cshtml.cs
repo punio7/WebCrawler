@@ -26,6 +26,7 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
             _emailSender = emailSender;
         }
 
+        [Display(Name ="Użytkownik")]
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -42,9 +43,9 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
             [EmailAddress]
             public string Email { get; set; }
 
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            [Required]
+            [Display(Name ="Wyświetlana nazwa")]
+            public string DisplayName { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -57,14 +58,13 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
 
             var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
 
             Input = new InputModel
             {
                 Email = email,
-                PhoneNumber = phoneNumber
+                DisplayName = user.DisplayName,
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -96,19 +96,20 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            var displayName = user.DisplayName;
+            if (Input.DisplayName != displayName)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                user.DisplayName = Input.DisplayName;
+                var setDisplayName = await _userManager.UpdateAsync(user);
+                if (!setDisplayName.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                    throw new InvalidOperationException($"Unexpected error occurred setting display name for user with ID '{userId}'.");
                 }
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Zaktualizowano profil";
             return RedirectToPage();
         }
 

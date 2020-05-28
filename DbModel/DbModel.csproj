@@ -237,6 +237,7 @@
     <Compile Include="ModelBuilders\ModelBuilderBase.cs" />
     <Compile Include="ModelBuilders\ProcessSessionBuilder.cs" />
     <Compile Include="ModelBuilders\WorkerConnectionBuilder.cs" />
+    <Compile Include="Models\AppDefinition.cs" />
     <Compile Include="WebCrawlerDbContext.cs" />
     <Compile Include="Enums\SessionState.cs" />
     <Compile Include="Enums\WorkerConnectionState.cs" />
