@@ -254,3 +254,5 @@ paket-files/
 /ChatApp/ChatApp/Web.Debug.config
 /ChatApp/ChatApp/Web.config
 /ChatApp/ChatApp/logs/log.txt
+/WebApp/WebApp/appsettings.json
+/WebApp/WebApp/appsettings.Development.json
