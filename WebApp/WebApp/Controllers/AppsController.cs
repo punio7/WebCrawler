@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebCrawler.WebApp.DbModel.Extensions;
-using WebCrawler.WebApp.DbModel.Models;
 using WebCrawler.WebApp.Logic;
 using WebCrawler.WebApp.WebApp.Models.Apps;
 
@@ -11,10 +11,12 @@ namespace WebApp.Controllers
     public class AppsController : Controller
     {
         private readonly SessionManager sessionManager;
+        private readonly IMapper mapper;
 
-        public AppsController(SessionManager sessionManager)
+        public AppsController(SessionManager sessionManager, IMapper mapper)
         {
             this.sessionManager = sessionManager;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -24,47 +26,48 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult ListApps()
         {
             ListAppsViewModel model = new ListAppsViewModel();
-            model.Apps = new List<AppDefinition>()
+            model.Apps = new List<AppViewModel>()
             {
-                new AppDefinition()
+                new AppViewModel()
                 {
                     DisplayName = "Dungeon Crawler",
                     Description = "Opis dungeon crawler",
                 },
-                new AppDefinition()
+                new AppViewModel()
                 {
                     DisplayName = "Dungeon Crawler 2",
                     Description = "Opis dungeon crawler",
                 },
-                new AppDefinition()
+                new AppViewModel()
                 {
                     DisplayName = "Dungeon Crawler",
                     Description = "Opis dungeon crawler",
                 },
-                new AppDefinition()
+                new AppViewModel()
                 {
                     DisplayName = "Dungeon Crawler 2",
                     Description = "Opis dungeon crawler",
                 },
-                new AppDefinition()
+                new AppViewModel()
                 {
                     DisplayName = "Dungeon Crawler",
                     Description = "Opis dungeon crawler",
                 },
-                new AppDefinition()
+                new AppViewModel()
                 {
                     DisplayName = "Dungeon Crawler 2",
                     Description = "Opis dungeon crawler",
                 },
-                new AppDefinition()
+                new AppViewModel()
                 {
                     DisplayName = "Dungeon Crawler",
                     Description = "Opis dungeon crawler",
                 },
-                new AppDefinition()
+                new AppViewModel()
                 {
                     DisplayName = "Dungeon Crawler 2",
                     Description = "Opis dungeon crawler",
@@ -77,56 +80,8 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult ListSessions()
         {
-            ListSessionsViewModel model = new ListSessionsViewModel();
-            model.Sessions = sessionManager.GetActiveSessions();
-            model.Sessions = new List<ProcessSession>()
-            {
-                new ProcessSession()
-                {
-                    AppName = "Dungeon Crawler",
-                    Creator = new ApplicationUser()
-                    {
-                        DisplayName = "Użytkownik",
-                    },
-                    State = WebCrawler.WebApp.DbModel.Enums.SessionState.Active,
-                },
-                new ProcessSession()
-                {
-                    AppName = "Dungeon Crawler",
-                    Creator = new ApplicationUser()
-                    {
-                        DisplayName = "Użytkownik",
-                    },
-                    State = WebCrawler.WebApp.DbModel.Enums.SessionState.Active,
-                },
-                new ProcessSession()
-                {
-                    AppName = "Dungeon Crawler",
-                    Creator = new ApplicationUser()
-                    {
-                        DisplayName = "Użytkownik",
-                    },
-                    State = WebCrawler.WebApp.DbModel.Enums.SessionState.Active,
-                },
-                new ProcessSession()
-                {
-                    AppName = "Dungeon Crawler",
-                    Creator = new ApplicationUser()
-                    {
-                        DisplayName = "Użytkownik",
-                    },
-                    State = WebCrawler.WebApp.DbModel.Enums.SessionState.Active,
-                },
-                new ProcessSession()
-                {
-                    AppName = "Dungeon Crawler",
-                    Creator = new ApplicationUser()
-                    {
-                        DisplayName = "Użytkownik",
-                    },
-                    State = WebCrawler.WebApp.DbModel.Enums.SessionState.Active,
-                },
-            };
+            var sessions = sessionManager.GetActiveSessions();
+            ListSessionsViewModel model = mapper.Map<ListSessionsViewModel>(sessions);
 
             return View(model);
         }
