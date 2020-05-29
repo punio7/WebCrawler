@@ -31,8 +31,7 @@ namespace WebApp.Hubs
             await HubOperation(nameof(RegisterWorker), args, async () =>
             {
                 workerManager.RegisterNewWorker(Context.ConnectionId, args);
-                IEnumerable<ProcessSession> terminatedSessions;
-                sessionManager.CheckActiveSessions(args.WorkerName, args.SessionIdList, out terminatedSessions);
+                sessionManager.CheckActiveSessions(args.WorkerName, args.SessionIdList, out IEnumerable<ProcessSession> terminatedSessions);
                 foreach (var session in terminatedSessions)
                 {
                     await Clients.Group(session.GroupName).SendAsync("AddSystemMessage", "Sesja zakończona przez serwer wykonawczy.");

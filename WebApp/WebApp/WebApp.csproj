@@ -5,10 +5,13 @@
     <DebugType>full</DebugType>
     <UserSecretsId>aspnet-WebApp-69DCB45F-87E6-4CDD-9BBD-CB65682235DA</UserSecretsId>
     <RootNamespace>WebCrawler.WebApp.WebApp</RootNamespace>
+    <AssemblyName>WebCrawler.WebApp.WebApp</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
+    <Content Remove="template.appsettings.Development.json" />
+    <Content Remove="template.appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,11 +50,13 @@
 
   <ItemGroup>
     <None Include="bundleconfig.json" />
+    <None Include="template.appsettings.Development.json" />
+    <None Include="template.appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ChatApp\HubModel\HubModel.csproj" />
     <ProjectReference Include="..\..\DbModel\DbModel.csproj" />
+    <ProjectReference Include="..\HubModel\HubModel.csproj" />
     <ProjectReference Include="..\Logic\Logic.csproj" />
   </ItemGroup>
 
