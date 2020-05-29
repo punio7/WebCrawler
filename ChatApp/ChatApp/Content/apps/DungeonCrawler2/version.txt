@@ -1,5 +1,0 @@
-commit 1b5c1bc84906ace00b2d1a3afb5b537c604d38c6
-Author: punio7 <punio7@gmail.com>
-Date:   Thu Jul 26 22:35:05 2018 +0200
-
-    Dodanie informacji o wersji

@@ -256,3 +256,4 @@ paket-files/
 /ChatApp/ChatApp/logs/log.txt
 /WebApp/WebApp/appsettings.json
 /WebApp/WebApp/appsettings.Development.json
+/ChatApp/*
