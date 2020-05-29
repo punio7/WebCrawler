@@ -43,3 +43,7 @@ body {
 .table-vertical-middle > tbody > tr > td {
     vertical-align: middle;
 }
+
+.hidden {
+    display: none;
+}

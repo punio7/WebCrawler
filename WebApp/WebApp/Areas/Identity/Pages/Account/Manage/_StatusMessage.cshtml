@@ -3,8 +3,9 @@
 @if (!String.IsNullOrEmpty(Model))
 {
     var statusMessageClass = Model.StartsWith("Error") ? "danger" : "success";
-    <div class="alert alert-@statusMessageClass alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <input class="alert-state" id="alert-1" type="checkbox">
+    <div class="alert alert-@statusMessageClass dismissible">
         @Model
+        <label class="btn-close" for="alert-1">X</label>
     </div>
 }
