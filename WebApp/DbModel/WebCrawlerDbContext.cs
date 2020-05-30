@@ -17,7 +17,8 @@ namespace WebCrawler.WebApp.DbModel
             AllModelBuilder.BuildAllModels(modelBuilder);
         }
 
-        public DbSet<WorkerConnection> WorkerConnections { get; set; }
+        public DbSet<AppDefinition> AppDefinitions { get; set; }
         public DbSet<ProcessSession> ProcessSessions { get; set; }
+        public DbSet<WorkerConnection> WorkerConnections { get; set; }
     }
 }

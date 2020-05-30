@@ -25,13 +25,13 @@ namespace WebCrawler.WebApp.Logic
             this.dbContext = dbContext;
         }
 
-        public ProcessSession StartNewSession(string userId, string appName)
+        public ProcessSession StartNewSession(string userId, long appId)
         {
             ProcessSession session = new ProcessSession()
             {
                 State = SessionState.NotStarted,
                 CreatorId = userId,
-                AppName = appName,
+                AppId = appId,
             };
             dbContext.ProcessSessions.Add(session);
             dbContext.SaveChanges();
@@ -79,11 +79,8 @@ namespace WebCrawler.WebApp.Logic
 
         public IEnumerable<ProcessSession> GetActiveSessions()
         {
-            var processSessionList =
-                    (from session in dbContext.ProcessSessions.Include(ps => ps.Creator)
-                     where session.State == SessionState.Active
-                     select session);
-            return processSessionList.ToList();
+            return dbContext.ProcessSessions
+                .Where(s => s.State == SessionState.Active);
         }
 
         public void Update(ProcessSession session)

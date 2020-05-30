@@ -16,8 +16,6 @@ namespace WebCrawler.WebApp.DbModel.ModelBuilders
 
             builder.Property(wc => wc.CreatorId)
                 .IsRequired();
-            builder.Property(wc => wc.AppName)
-                .IsRequired();
         }
     }
 }

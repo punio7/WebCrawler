@@ -212,14 +212,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Managers\AppManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionManager.cs" />
-    <Compile Include="UserManager.cs" />
-    <Compile Include="WorkerManager.cs" />
+    <Compile Include="Managers\SessionManager.cs" />
+    <Compile Include="Managers\UserManager.cs" />
+    <Compile Include="Managers\WorkerManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DbModel\DbModel.csproj">
-      <Project>{0D76C15A-5A38-4093-A3BB-F0CE2A6BB027}</Project>
+    <ProjectReference Include="..\DbModel\DbModel.csproj">
+      <Project>{0d76c15a-5a38-4093-a3bb-f0ce2a6bb027}</Project>
       <Name>DbModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\HubModel\HubModel.csproj">

@@ -14,6 +14,7 @@ namespace WebCrawler.WebApp.WebApp
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddSingleton<IMapper>(MapperFactory.CreateMapper);
 
+            services.AddScoped<AppManager>();
             services.AddScoped<SessionManager>();
             services.AddScoped<UserManager>();
             services.AddScoped<WorkerManager>();

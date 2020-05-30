@@ -54,12 +54,12 @@ namespace WebApp.Hubs
                 {
                     _ = Clients.Group(session.GroupName).SendAsync("AddSystemMessage", "Rozpoczynanie procesu zdalnego.");
 
-                    WorkerConnection worker = workerManager.GetAvaliableWorker(session.AppName);
+                    WorkerConnection worker = workerManager.GetAvaliableWorker(session.App.Name);
                     StartProcessArguments args = new StartProcessArguments()
                     {
                         UserName = user.Email,
                         SessionId = session.Id,
-                        ApplicationName = session.AppName,
+                        ApplicationName = session.App.Name,
                         UserId = user.Id,
                     };
                     dynamic workerSignalR = GetWorkerContext(worker);

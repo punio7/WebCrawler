@@ -2,7 +2,8 @@
 {
     public class AppViewModel
     {
-        public string DisplayName { get; internal set; }
-        public string Description { get; internal set; }
+        public long Id { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
     }
 }

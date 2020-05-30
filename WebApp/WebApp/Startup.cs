@@ -32,7 +32,10 @@ namespace WebCrawler.WebApp.WebApp
             });
 
             services.AddDbContext<WebCrawlerDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseLazyLoadingProxies();
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<WebCrawlerDbContext>()
                 .AddDefaultTokenProviders();

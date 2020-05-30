@@ -10,7 +10,7 @@ namespace WebCrawler.WebApp.DbModel.Models
 
         public long? WorkerConnectionId { get; set; }
 
-        public WorkerConnection WorkerConnection { get; set; }
+        public virtual WorkerConnection WorkerConnection { get; set; }
 
         public SessionState State { get; set; }
 
@@ -26,7 +26,11 @@ namespace WebCrawler.WebApp.DbModel.Models
 
         public virtual ApplicationUser Creator { get; set; }
 
-        public string AppName { get; set; }
+        public long AppId { get; set; }
+
+        public virtual AppDefinition App { get; set; }
+
+        #region Methods
 
         public bool CanSendCommands(string userId)
         {
@@ -36,6 +40,8 @@ namespace WebCrawler.WebApp.DbModel.Models
         public bool CanSendOutput(string userId)
         {
             return userId == WorkerConnection.ConnectionId;
-        }
+        } 
+
+        #endregion
     }
 }

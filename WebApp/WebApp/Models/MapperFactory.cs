@@ -13,8 +13,11 @@ namespace WebCrawler.WebApp.WebApp.Models
         {
             var mapperConfiguration = new MapperConfiguration(config =>
             {
+                config.CreateMap<AppDefinition, AppViewModel>();
                 config.CreateMap<ProcessSession, SessionViewModel>();
 
+                config.CreateMap<IEnumerable<AppDefinition>, ListAppsViewModel>()
+                    .ForMember(vm => vm.Apps, options => options.MapFrom(dbm => dbm));
                 config.CreateMap<IEnumerable<ProcessSession>, ListSessionsViewModel>()
                     .ForMember(vm => vm.Sessions, options => options.MapFrom(dbm => dbm));
 

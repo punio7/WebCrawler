@@ -19,6 +19,6 @@ namespace WebCrawler.WebApp.DbModel.Models
 
         public WorkerConnectionState State { get; set; }
 
-        public List<ProcessSession> ProcesSessions { get; set; }
+        public virtual List<ProcessSession> ProcesSessions { get; set; }
     }
 }

@@ -230,8 +230,13 @@
     <Compile Include="Migrations\20200526190335_AlterProcessSessions.designer.cs">
       <DependentUpon>20200526190335_AlterProcessSessions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200530104643_AddAppDefinition.cs" />
+    <Compile Include="Migrations\20200530104643_AddAppDefinition.designer.cs">
+      <DependentUpon>20200530104643_AddAppDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\WebCrawlerDbContextModelSnapshot.cs" />
     <Compile Include="ModelBuilders\AllModelBuilder.cs" />
+    <Compile Include="ModelBuilders\AppDefinitionBuilder.cs" />
     <Compile Include="ModelBuilders\ApplicationUserBuilder.cs" />
     <Compile Include="ModelBuilders\IModelBuilder.cs" />
     <Compile Include="ModelBuilders\ModelBuilderBase.cs" />
