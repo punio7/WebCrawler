@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{5C9747
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "WebApp\Logic\Logic.csproj", "{F86D5BC1-B5B0-482F-939C-01429842A3F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbModel", "DbModel\DbModel.csproj", "{0D76C15A-5A38-4093-A3BB-F0CE2A6BB027}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbModel", "WebApp\DbModel\DbModel.csproj", "{0D76C15A-5A38-4093-A3BB-F0CE2A6BB027}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

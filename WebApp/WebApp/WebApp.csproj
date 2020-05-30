@@ -56,7 +56,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DbModel\DbModel.csproj" />
+    <ProjectReference Include="..\DbModel\DbModel.csproj" />
     <ProjectReference Include="..\HubModel\HubModel.csproj" />
     <ProjectReference Include="..\Logic\Logic.csproj" />
   </ItemGroup>
