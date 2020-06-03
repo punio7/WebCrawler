@@ -23,7 +23,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return RedirectToAction("ListApps");
+            return RedirectToAction(nameof(ListApps));
         }
 
         [HttpGet]
@@ -47,13 +47,9 @@ namespace WebApp.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult SessionRoom(string appName, long? sessionId)
+        public ActionResult SessionRoom(string appName, long sessionId)
         {
-            if (!sessionId.HasValue)
-            {
-                return RedirectToAction("ListSessions");
-            }
-            var session = sessionManager.GetSession(sessionId.Value);
+            var session = sessionManager.GetSession(sessionId);
             if (session == null || session.App.Name != appName)
             {
                 return NotFound($"SessionRoom not found for App: {appName} and Id: {sessionId}");
@@ -71,16 +67,19 @@ namespace WebApp.Controllers
         {
             string userId = User.GetUserId();
             var session = sessionManager.StartNewSession(userId, appId);
-            return RedirectToRoute("Apps", new { controller = "Apps", action = "SessionRoom", sessionId = session.Id });
+            return RedirectToRoute("Apps", new { controller = "Apps", action = nameof(SessionRoom), sessionId = session.Id });
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult JoinToSession(long? sessionId)
+        public ActionResult JoinToSession(long? id)
         {
-            var session = sessionManager.GetSession(sessionId.Value);
-            return RedirectToRoute("Apps", new { controller = "Apps", action = "SessionRoom", sessionId, appName = session?.App.Name });
+            if (!id.HasValue)
+            {
+                return RedirectToAction(nameof(ListSessions));
+            }
+            var session = sessionManager.GetSession(id.Value);
+            return RedirectToRoute("Apps", new { controller = "Apps", action = nameof(SessionRoom), appName = session?.App.Name, sessionId = id.Value });
         }
     }
 }

@@ -24,7 +24,7 @@
                 <td>@session.CreatorDisplayName</td>
                 <td>@session.StateDisplay</td>
                 <td>
-                    <a class="paper-btn" href="/Apps/SessionRoom/@session.AppName/@session.Id">Dołącz</a>
+                    <a class="paper-btn" asp-controller="Apps" asp-action="JoinToSession" asp-route-id="@session.Id">Dołącz</a>
                 </td>
             </tr>
         }
