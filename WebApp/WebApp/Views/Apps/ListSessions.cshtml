@@ -16,10 +16,11 @@
         </tr>
     </thead>
     <tbody>
+        @{ int sequenceNumber = 1;}
         @foreach (var session in Model.Sessions)
         {
             <tr>
-                <td>1</td>
+                <td>@sequenceNumber</td> @{ sequenceNumber++;}
                 <td>@session.AppDisplayName</td>
                 <td>@session.CreatorDisplayName</td>
                 <td>@session.StateDisplay</td>

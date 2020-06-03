@@ -63,11 +63,11 @@ namespace WebApp.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult StartNewSession(long appId)
+        public ActionResult StartNewSession([FromForm]long appId)
         {
             string userId = User.GetUserId();
             var session = sessionManager.StartNewSession(userId, appId);
-            return RedirectToRoute("Apps", new { controller = "Apps", action = nameof(SessionRoom), sessionId = session.Id });
+            return RedirectToRoute("Apps", new { controller = "Apps", action = nameof(SessionRoom), appName = session?.App.Name, sessionId = session.Id });
         }
 
         [HttpGet]

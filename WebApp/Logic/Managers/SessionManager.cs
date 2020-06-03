@@ -27,7 +27,7 @@ namespace WebCrawler.WebApp.Logic
             {
                 State = SessionState.NotStarted,
                 CreatorId = userId,
-                AppId = appId,
+                App = dbContext.AppDefinitions.Find(appId),
             };
             dbContext.ProcessSessions.Add(session);
             dbContext.SaveChanges();
@@ -63,7 +63,7 @@ namespace WebCrawler.WebApp.Logic
         public IEnumerable<ProcessSession> GetActiveSessions()
         {
             return dbContext.ProcessSessions
-                .Where(s => s.State == SessionState.Active);
+                .Where(s => s.State != SessionState.Finished);
         }
 
         public void Update(ProcessSession session)

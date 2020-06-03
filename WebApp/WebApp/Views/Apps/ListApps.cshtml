@@ -12,11 +12,11 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">@app.DisplayName</h4>
-                    @*<h5 class="card-subtitle">Nice looking subtitle.</h5>*@
                     <p class="card-text">@app.Description</p>
-                    @*<a class="card-link" href="#">First link</a>
-                        <a class="card-link" href="#">Second link</a>*@
-                    <button>Utwórz sesję</button>
+                    <form asp-controller="Apps" asp-action="StartNewSession" method="post">
+                        <input type="hidden" asp-for="@app.Id" name="appId"/>
+                        <button type="submit" class="btn-small">Utwórz sesję</button>
+                    </form>
                 </div>
             </div>
         </div>
