@@ -47,7 +47,7 @@ namespace WebApp.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult SessionRoom(long? sessionId, string appName)
+        public ActionResult SessionRoom(string appName, long? sessionId)
         {
             if (!sessionId.HasValue)
             {
@@ -58,14 +58,10 @@ namespace WebApp.Controllers
             {
                 return NotFound($"SessionRoom not found for App: {appName} and Id: {sessionId}");
             }
-            var sessionRoomViewModel = new SessionRoomViewModel
-            {
-                SessionId = sessionId.Value,
-                AppName = session.App.Name,
-                IsOwner = session.CanSendCommands(User.GetUserId()),
-            };
+            var model = mapper.Map<SessionRoomViewModel>(session);
+            model.IsOwner = session.CanSendCommands(User.GetUserId());
 
-            return View(appName, sessionRoomViewModel);
+            return View(appName, model);
         }
 
         [HttpPost]

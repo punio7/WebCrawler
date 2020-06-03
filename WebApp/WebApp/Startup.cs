@@ -40,7 +40,6 @@ namespace WebCrawler.WebApp.WebApp
                 .AddEntityFrameworkStores<WebCrawlerDbContext>()
                 .AddDefaultTokenProviders();
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddRazorPagesOptions(options =>
                 {
@@ -90,6 +89,10 @@ namespace WebCrawler.WebApp.WebApp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "apps",
+                    template: "{controller}/{action}/{appName}/{sessionId}"
+                );
             });
         }
     }

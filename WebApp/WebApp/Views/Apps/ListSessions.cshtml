@@ -22,8 +22,10 @@
                 <td>1</td>
                 <td>@session.AppDisplayName</td>
                 <td>@session.CreatorDisplayName</td>
-                <td>@session.State.ToString()</td>
-                <td><button>Dołącz</button></td>
+                <td>@session.StateDisplay</td>
+                <td>
+                    <a class="paper-btn" href="/Apps/SessionRoom/@session.AppName/@session.Id">Dołącz</a>
+                </td>
             </tr>
         }
     </tbody>

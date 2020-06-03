@@ -15,6 +15,7 @@ namespace WebCrawler.WebApp.WebApp.Models
             {
                 config.CreateMap<AppDefinition, AppViewModel>();
                 config.CreateMap<ProcessSession, SessionViewModel>();
+                config.CreateMap<ProcessSession, SessionRoomViewModel>();
 
                 config.CreateMap<IEnumerable<AppDefinition>, ListAppsViewModel>()
                     .ForMember(vm => vm.Apps, options => options.MapFrom(dbm => dbm));

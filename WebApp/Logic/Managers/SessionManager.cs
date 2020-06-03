@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using WebCrawler.WebApp.DbModel;
 using WebCrawler.WebApp.DbModel.Enums;
@@ -12,12 +10,10 @@ namespace WebCrawler.WebApp.Logic
 {
     public class SessionManager
     {
-        private static Lazy<ConcurrentDictionary<long, ProcessSession>> sessionCache;
         private readonly WebCrawlerDbContext dbContext;
 
         static SessionManager()
         {
-            sessionCache = new Lazy<ConcurrentDictionary<long, ProcessSession>>(LazyThreadSafetyMode.PublicationOnly);
         }
 
         public SessionManager(WebCrawlerDbContext dbContext)
@@ -35,7 +31,6 @@ namespace WebCrawler.WebApp.Logic
             };
             dbContext.ProcessSessions.Add(session);
             dbContext.SaveChanges();
-            sessionCache.Value[session.Id] = session;
             return session;
         }
 
@@ -50,10 +45,6 @@ namespace WebCrawler.WebApp.Logic
                 {
                     session.State = SessionState.Finished;
                     terminatedSessionsList.Add(session);
-                    if (sessionCache.Value.ContainsKey(session.Id))
-                    {
-                        sessionCache.Value[session.Id] = session;
-                    }
                 }
             }
             dbContext.SaveChanges();
@@ -62,18 +53,10 @@ namespace WebCrawler.WebApp.Logic
 
         public ProcessSession GetSession(long id)
         {
-            if (sessionCache.Value.ContainsKey(id))
-            {
-                return sessionCache.Value[id];
-            }
             ProcessSession processSession =
                     (from session in dbContext.ProcessSessions.Include(s => s.WorkerConnection)
                      where session.Id == id
                      select session).SingleOrDefault();
-            if (processSession != null)
-            {
-                sessionCache.Value[id] = processSession;
-            }
             return processSession;
         }
 
@@ -87,7 +70,6 @@ namespace WebCrawler.WebApp.Logic
         {
             dbContext.Entry(session).State = EntityState.Modified;
             dbContext.SaveChanges();
-            sessionCache.Value[session.Id] = session;
         }
 
         public void UnregisterWorker(WorkerConnection worker)
@@ -106,10 +88,10 @@ namespace WebCrawler.WebApp.Logic
 
         public void UpdateWorkerConnectionCache(WorkerConnection connection)
         {
-            foreach (ProcessSession session in sessionCache.Value.Values.Where(s => s.WorkerConnectionId == connection.Id))
-            {
-                session.WorkerConnection = connection;
-            }
+            //foreach (ProcessSession session in sessionCache.Value.Values.Where(s => s.WorkerConnectionId == connection.Id))
+            //{
+            //    session.WorkerConnection = connection;
+            //}
         }
     }
 }

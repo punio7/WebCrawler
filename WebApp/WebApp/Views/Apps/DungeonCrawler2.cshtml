@@ -1,0 +1,38 @@
+﻿@model WebCrawler.WebApp.WebApp.Models.Apps.SessionRoomViewModel
+@{
+    ViewData["Title"] = "Dungeon Crawler 2";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/apps/DungeonCrawler2/style.css" />
+}
+
+@section Scripts {
+    <script>
+        var sessionId = @Model.Id;
+    </script>
+    @*<script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+        <script src="~/signalr/hubs"></script>*@
+    <script src="~/js/apps/DungeonCrawler2.js"></script>
+    <script src="~/apps/DungeonCrawler2/src/Init.js"></script>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <h2>@Model.AppDisplayName</h2>
+        </div>
+    </div>
+    <div class="row container consoleContainer">
+        <div id="consoleOutput" class="console">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-fill col">
+            <input type="text" id="consoleInput" class="form-control consoleInput"/>
+        </div>
+        <div class="md-3 col">
+            <button type="button" id="executeButton" class="paper-btn">Wykonaj</button>
+        </div>
+    </div>
+</div>
